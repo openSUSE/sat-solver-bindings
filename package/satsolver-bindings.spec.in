@@ -1,0 +1,234 @@
+%if 0%{?fedora_version}
+%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e 'puts Config::CONFIG["sitelibdir"] ')}
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
+%endif
+
+Name:           satsolver-bindings
+Version:        @VERSION@
+Release:        1
+License:        BSD 3-Clause
+Url:            git://gitorious.org/opensuse/sat-solver-bindings.git
+Source:         satsolver-bindings-%{version}.tar.bz2
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+Group:          Development/Libraries/C and C++
+Summary:        Placeholder for subpackages of satsolver-bindings
+Prefix:         /usr
+BuildRequires:  libsatsolver-devel
+BuildRequires:  doxygen
+%if 0%{?mandriva_version}
+# force this version on mandriva
+BuildRequires:  libneon0.26-devel
+%endif
+%if 0%{?fedora_version}
+BuildRequires:  perl-devel db4-devel ruby ruby-rdoc
+%endif
+%if 0%{?suse_version}
+%if 0%{?suse_version} < 1030
+BuildRequires:  expat
+%else
+BuildRequires:  libexpat-devel
+%endif
+%if 0%{?suse_version} < 1100
+BuildRequires:  graphviz
+%endif
+%if 0%{?suse_version} > 1020
+BuildRequires:  fdupes
+%endif
+%else
+BuildRequires:  expat-devel
+%endif
+BuildRequires:  cmake rpm-devel gcc-c++ ruby-devel swig perl python-devel
+BuildRequires:  zlib-devel
+# the testsuite uses the check framework
+BuildRequires:  check-devel
+
+#define some macros missing on fedora
+%if 0%{?fedora_version}
+%{!?py_sitedir: %define py_sitedir %(%__python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?py_requires: %define py_requires Requires: python}
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
+%endif
+
+%description
+This is not a package but a .spec placeholder fo subpackages of
+satsolver-bindings.
+
+
+
+%package -n libsatsolverapp0
+Summary:        Sat-solver application layer
+Group:          Development/Libraries/C and C++
+%description -n libsatsolverapp0
+An application layer to make using satsolver easier for developers.
+
+Authors:
+--------
+    Klaus Kaempf <kkaempf@suse.de>
+
+%package -n libsatsolverapp0-devel
+Summary:        Sat-solver application layer
+Group:          Development/Libraries/C and C++
+Requires:       %{name} = %version
+
+%description -n libsatsolverapp0-devel
+Development files for libsatsolverapp
+
+Authors:
+--------
+    Klaus Kaempf <kkaempf@suse.de>
+
+%package -n ruby-satsolver
+Summary:        Ruby bindings for sat solver
+Group:          Development/Languages/Ruby
+
+%description -n ruby-satsolver
+Ruby bindings for sat solver.
+
+Authors:
+--------
+    Klaus Kaempf <kkaempf@suse.de>
+    Duncan Mac-Vicar P. <dmacvicar@suse.de>
+
+%package -n python-satsolver
+%py_requires
+Summary:        Python bindings for sat solver
+Group:          Development/Languages/Python
+
+%description -n python-satsolver
+Python bindings for sat solver.
+
+Authors:
+--------
+    Klaus Kaempf <kkaempf@suse.de>
+    Duncan Mac-Vicar P. <dmacvicar@suse.de>
+
+%package -n perl-satsolver
+Requires:       perl = %{perl_version}
+Summary:        Perl bindings for sat solver
+Group:          Development/Languages/Perl
+
+%description -n perl-satsolver
+Perl bindings for sat solver.
+
+Authors:
+--------
+    Klaus Kaempf <kkaempf@suse.de>
+    Duncan Mac-Vicar P. <dmacvicar@suse.de>
+    Bernhard Wiedemann <bwiedemann@suse.de>
+
+%package -n satsolver-bindings-devel
+Requires:       swig %{name}-devel
+Summary:        Swig input files for satsolver bindings
+Group:          Development/Libraries
+BuildArch:      noarch
+
+%description -n satsolver-bindings-devel
+The Swig input files for satsolver bindings allow for reuse of the
+bindings concept in other projects, i.e. libzypp-bindings.
+
+Authors:
+--------
+    Klaus Kaempf <kkaempf@suse.de>
+
+
+%prep
+%setup -n %{name}-%{version}
+
+%build
+export CFLAGS="$RPM_OPT_FLAGS"
+export CXXFLAGS="$CFLAGS"
+
+CMAKE_FLAGS=
+%if 0%{?fedora_version}
+CMAKE_FLAGS="-DFEDORA=1"
+%endif
+
+cmake   $CMAKE_FLAGS \
+	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DPYTHON_SITEDIR=%{py_sitedir} \
+	-DLIB=%{_lib} \
+	-DCMAKE_VERBOSE_MAKEFILE=TRUE \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SKIP_RPATH=1 
+make %{?jobs:-j %jobs}
+# make doc_forced
+
+%if 0%{?run_testsuite}
+  ln -s . build
+  ctest .
+%endif
+
+%install
+make DESTDIR=$RPM_BUILD_ROOT install
+# we want to leave the .a file untouched
+export NO_BRP_STRIP_DEBUG=true
+#pushd doc/autodoc
+#make install
+#popd
+%if 0%{?suse_version} > 1020
+# create symlinks for documentation
+#%fdupes -s %{buildroot}%{_docdir}/ruby-satsolver
+%fdupes -s bindings/ruby/html
+%endif
+
+%clean
+rm -rf "$RPM_BUILD_ROOT"
+
+%files
+%defattr(-,root,root)
+%doc LICENSE* README
+
+%files devel
+%defattr(-,root,root)
+%_libdir/libsatsolverapp.a
+%dir /usr/include/satsolver-app
+/usr/include/satsolver-app/*
+
+%files -n ruby-satsolver
+%defattr(-,root,root,-)
+%if 0%{?suse_version}
+%if 0%{?suse_version} < 1010
+%dir %{_libdir}/ruby/site_ruby/%{rb_ver}/%{rb_arch}
+%dir %{_libdir}/ruby/site_ruby/%{rb_ver}/satsolver
+%{_libdir}/ruby/site_ruby/%{rb_ver}/satsolver/*.rb
+%{_libdir}/ruby/site_ruby/%{rb_ver}/satsolver.rb
+%{_libdir}/ruby/site_ruby/%{rb_ver}/%{rb_arch}/satsolver.so
+%else
+%dir %{_libdir}/ruby/vendor_ruby/%{rb_ver}/satsolver
+%{_libdir}/ruby/vendor_ruby/%{rb_ver}/satsolver/*.rb
+%{_libdir}/ruby/vendor_ruby/%{rb_ver}/satsolver.rb
+%{_libdir}/ruby/vendor_ruby/%{rb_ver}/%{rb_arch}/satsolver.so
+%endif
+%endif
+%if 0%{?mandriva_version}
+%dir %{ruby_sitelibdir}/satsolver
+%{ruby_sitelibdir}/satsolver/*.rb
+%{ruby_sitelibdir}/satsolver.rb
+%{ruby_sitearchdir}/satsolver.so
+%endif
+%if 0%{?fedora_version}
+%dir %{ruby_sitelib}/satsolver
+%{ruby_sitelib}/satsolver.rb
+%{ruby_sitelib}/satsolver/*.rb
+%{ruby_sitearch}/satsolver.so
+%endif
+%doc bindings/ruby/html
+
+%files -n python-satsolver
+%defattr(-,root,root,-)
+#%doc swig/python/examples/*.py
+%{py_sitedir}/_satsolver.so
+%{py_sitedir}/satsolver.py*
+
+%files -n perl-satsolver
+%defattr(-,root,root,-)
+%{perl_vendorarch}/satsolver.so
+%{perl_vendorlib}/satsolver.pm
+
+%files -n satsolver-bindings-devel
+%defattr(-,root,root,-)
+%dir %{prefix}/share/satsolver-bindings
+%{prefix}/share/satsolver-bindings/*.i
+%{prefix}/share/satsolver-bindings/*.h
+
+%changelog
