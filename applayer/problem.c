@@ -25,7 +25,9 @@
 #include "applayer.h"
 #include <solverdebug.h>
 
+#ifndef SATSOLVER_VERSION
 extern void solver_printcompleteprobleminfo(Solver *solv, Id problem);
+#endif
 
 Problem *
 problem_new( Solver *s, Request *t, Id id )
@@ -50,11 +52,17 @@ problem_string( const Problem *p, int full )
 
   if (full == 0) {
     app_debugstart(pool,SAT_DEBUG_RESULT);
+#if SATSOLVER_VERSION > 0
     solver_printcompleteprobleminfo(p->solver, p->id);
+#endif
   }
   else if (full > 0) {
     app_debugstart(pool,SAT_DEBUG_RESULT);
+#if SATSOLVER_VERSION > 0
     solver_printprobleminfo(p->solver, p->id);
+#else
+    solver_printprobleminfo(p->solver, &(p->request->queue), p->id);
+#endif
   }
   else {
     app_debugstart(pool,SAT_DEBUG_SOLUTIONS);
@@ -83,6 +91,7 @@ solver_problems_iterate( Solver *solver, Request *t, int (*callback)(Problem *p,
 void
 problem_ruleinfos_iterate( Problem *problem, int (*callback)(Ruleinfo *ri, void *user_data), void *user_data )
 {
+#if SATSOLVER_VERSION > 0
   Queue rules;
   Id rule;
   queue_init(&rules);
@@ -94,6 +103,7 @@ problem_ruleinfos_iterate( Problem *problem, int (*callback)(Ruleinfo *ri, void 
       if (callback( ri, user_data ))
 	break;
     }
+#endif
   return;
 }
 
