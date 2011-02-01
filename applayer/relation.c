@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "relation.h"
+#include <relation.h>
 
 
 Relation *

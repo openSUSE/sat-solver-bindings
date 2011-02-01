@@ -17,7 +17,7 @@
 #include <stdlib.h>
 
 #include "decision.h"
-#include "solverdebug.h"
+#include <solverdebug.h>
 
 Decision *
 decision_new( Solver *solver, int op, Id solvable, Rule *rule )

@@ -13,12 +13,12 @@
  */
 
 #include <stdlib.h>
-#include "job.h"
+#include <job.h>
 
-#include "ruleinfo.h"
+#include <ruleinfo.h>
 
 #include "applayer.h"
-#include "solverdebug.h"
+#include <solverdebug.h>
 
 Ruleinfo *
 ruleinfo_new( Solver *solver, Id rule )

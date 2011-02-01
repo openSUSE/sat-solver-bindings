@@ -3,9 +3,9 @@
  * 
  */
 #include <stdio.h>
-#include "policy.h"
+#include <policy.h>
 
-#include "ruby.h"
+#include <ruby.h>
 
 static const Pool *pool;
 static VALUE cPolicy;

@@ -18,12 +18,12 @@
 #include <stdlib.h>
 #include <policy.h>
 
-#include "problem.h"
-#include "solution.h"
-#include "evr.h"
+#include <problem.h>
+#include <solution.h>
+#include <evr.h>
 
 #include "applayer.h"
-#include "solverdebug.h"
+#include <solverdebug.h>
 
 Problem *
 problem_new( Solver *s, Request *t, Id id )
