@@ -174,11 +174,11 @@ export NO_BRP_STRIP_DEBUG=true
 %clean
 rm -rf "$RPM_BUILD_ROOT"
 
-%files
+%files -n libsatsolverapp0
 %defattr(-,root,root)
 %doc LICENSE* README
 
-%files devel
+%files -n libsatsolverapp0-devel
 %defattr(-,root,root)
 %_libdir/libsatsolverapp.a
 %dir /usr/include/satsolver-app
