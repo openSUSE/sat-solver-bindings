@@ -4,6 +4,7 @@
 
 ADD_SUBDIRECTORY(tests)
 
+INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} )
 INCLUDE_DIRECTORIES( ${SATSOLVER_INCLUDE_PATH} )
 
 SET(libsatsolverapp_SRCS job.c applayer.c covenant.c decision.c dependency.c
