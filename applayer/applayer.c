@@ -15,7 +15,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include "applayer.h"
-#include "xsolvables.h"
+#include "xsolvable.h"
 
 /************************************************
  * string handling
