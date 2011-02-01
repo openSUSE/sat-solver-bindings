@@ -25,6 +25,8 @@
 #include "applayer.h"
 #include <solverdebug.h>
 
+extern void solver_printcompleteprobleminfo(Solver *solv, Id problem);
+
 Problem *
 problem_new( Solver *s, Request *t, Id id )
 {
