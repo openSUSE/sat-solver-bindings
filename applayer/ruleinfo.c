@@ -19,9 +19,10 @@
 
 #include "applayer.h"
 #include <solverdebug.h>
-/* older versions of libsatsolver don't export this in solverdebug.h */
-extern void solver_printproblemruleinfo(Solver *solv, Id rule);
 
+#if SATSOLVER_VERSION == 0
+extern void solver_printproblemruleinfo(Solver *solv, Id rule);
+#endif
 
 Ruleinfo *
 ruleinfo_new( Solver *solver, Id rule )
@@ -29,7 +30,12 @@ ruleinfo_new( Solver *solver, Id rule )
   Ruleinfo *ri = (Ruleinfo *)calloc( 1, sizeof( Ruleinfo ));
   ri->solver = solver;
   ri->id = rule;
+#if SATSOLVER_VERSION > 0
   ri->cmd = solver_ruleinfo((Solver *)solver, rule, &(ri->source), &(ri->target), &(ri->dep));
+#else
+  /* extern SolverProbleminfo solver_problemruleinfo(Solver *solv, Queue *job, Id rid, Id *depp, Id *sourcep, Id *targetp); */
+#warning FIXME
+#endif	
   return ri;
 }
 
