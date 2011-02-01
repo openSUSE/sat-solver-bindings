@@ -32,7 +32,7 @@ ADD_CUSTOM_COMMAND (
    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../*.i
 )
 
-SET(binding_SRCS "${SWIG_OUTPUT}" "${CMAKE_SOURCE_DIR}/ext/repo_rpmdb.c" )
+SET(binding_SRCS "${SWIG_OUTPUT}")
 
 # Py_True and Py_False are a bit tricky
 ADD_DEFINITIONS( -fno-strict-aliasing )
@@ -42,14 +42,14 @@ ADD_LIBRARY( satsolver_python SHARED ${binding_SRCS} )
 #  and don't prefix with 'lib'
 SET_TARGET_PROPERTIES( satsolver_python PROPERTIES PREFIX "" OUTPUT_NAME "_satsolver")
 
+INCLUDE_DIRECTORIES( ${SATSOLVER_INCLUDE_PATH} )
 INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_PATH} )
-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src )
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/applayer )
-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/ext )
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/bindings )
 
-TARGET_LINK_LIBRARIES( satsolver_python satsolver )
-TARGET_LINK_LIBRARIES( satsolver_python appsatsolver )
+TARGET_LINK_LIBRARIES( satsolver_python ${SATSOLVER_LIBRARY} )
+TARGET_LINK_LIBRARIES( satsolver_python ${SATSOLVEREXT_LIBRARY} )
+TARGET_LINK_LIBRARIES( satsolver_python satsolverapp )
 TARGET_LINK_LIBRARIES( satsolver_python ${PYTHON_LIBRARIES} )
 TARGET_LINK_LIBRARIES( satsolver_python ${RPMDB_LIBRARY} )
 
