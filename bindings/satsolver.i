@@ -70,7 +70,6 @@
 #include "poolarch.h"
 #include "pool.h"
 #include "poolid.h"
-#include "poolid_private.h"
 #include "pooltypes.h"
 #include "queue.h"
 #include "solvable.h"
