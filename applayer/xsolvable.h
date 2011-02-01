@@ -8,10 +8,10 @@
 #ifndef SATSOLVER_XSOLVABLE_H
 #define SATSOLVER_XSOLVABLE_H
 
-#include "pool.h"
-#include "repo.h"
-#include "solvable.h"
-#include "solver.h"
+#include <pool.h>
+#include <repo.h>
+#include <solvable.h>
+#include <solver.h>
 
 #include "kinds.h"
 
@@ -122,5 +122,12 @@ int repo_xsolvables_count( const Repo *repo );
  * Iterate over all solvables of the given repo
  */
 void repo_xsolvables_iterate( const Repo *repo, int (*callback)( const XSolvable *xs, void *user_data ), void *user_data );
+
+/************************************************
+ * Pool
+ *
+ */
+/* in applayer.c */
+void pool_xsolvables_iterate( Pool *pool, int (*callback)(const XSolvable *xs, void *user_data), void *user_data);
 
 #endif  /* SATSOLVER_XSOLVABLE_H */

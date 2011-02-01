@@ -17,7 +17,7 @@
  *
  */
 
-#include "solver.h"
+#include <solver.h>
 
 #define DECISION_INSTALL  0x01
 #define DECISION_REMOVE   0x02

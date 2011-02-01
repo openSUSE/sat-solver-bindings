@@ -18,7 +18,7 @@
  *
  */
 
-#include "pool.h"
+#include <pool.h>
 
 #include "problem.h"
 

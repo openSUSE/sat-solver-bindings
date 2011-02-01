@@ -16,9 +16,11 @@
 #ifndef SATSOLVER_APPLAYER_H
 #define SATSOLVER_APPLAYER_H
 
-#include "pool.h"
+#include <pool.h>
 
-#include "xsolvable.h"
+#ifndef SATSOLVER_VERSION
+#define SATSOLVER_VERSION 0
+#endif
 
 /************************************************
  * string handling
@@ -42,6 +44,5 @@ const char *my_id2str( const Pool *pool, Id id );
  */
 
 unsigned int pool_xsolvables_count( const Pool *pool );
-void pool_xsolvables_iterate( Pool *pool, int (*callback)(const XSolvable *xs, void *user_data), void *user_data);
 
 #endif  /* SATSOLVER_APPLAYER_H */

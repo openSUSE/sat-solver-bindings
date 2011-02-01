@@ -18,7 +18,7 @@
  *
  */
 
-#include "solver.h"
+#include <solver.h>
 #include "job.h"
 #include "ruleinfo.h"
 
