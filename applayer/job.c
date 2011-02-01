@@ -15,6 +15,8 @@
 #include <stdlib.h>
 
 #include <job.h>
+#include "relation.h"
+#include "xsolvable.h"
 #include "applayer.h"
 
 Job *

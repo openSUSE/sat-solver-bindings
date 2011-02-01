@@ -19,6 +19,9 @@
 
 #include "applayer.h"
 #include <solverdebug.h>
+/* older versions of libsatsolver don't export this in solverdebug.h */
+extern void solver_printproblemruleinfo(Solver *solv, Id rule);
+
 
 Ruleinfo *
 ruleinfo_new( Solver *solver, Id rule )
