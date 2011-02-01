@@ -119,7 +119,7 @@ Authors:
 %package -n satsolver-bindings-devel
 Requires:       swig %{name}-devel
 Summary:        Swig input files for satsolver bindings
-Group:          Development/Libraries
+Group:          Development/Libraries/Other
 BuildArch:      noarch
 
 %description -n satsolver-bindings-devel
