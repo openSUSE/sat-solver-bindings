@@ -31,6 +31,6 @@ print "Timestamp: " . $timestamp . "\n";
 # FIXME
 #
 print "Addedfileprovides:\n";
-foreach my $a ($repo->attr("repository:addedfileprovides")) {
+foreach my $a (@{$repo->attr("repository:addedfileprovides")}) {
     print "  $a\n";
 }
