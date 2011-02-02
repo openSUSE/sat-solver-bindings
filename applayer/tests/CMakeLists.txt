@@ -8,4 +8,4 @@ INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/applayer )
 SET( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror" )
 
 ADD_EXECUTABLE( applayer applayer.c )
-TARGET_LINK_LIBRARIES( applayer appsatsolver satsolver )
+TARGET_LINK_LIBRARIES( applayer satsolverapp satsolver )
