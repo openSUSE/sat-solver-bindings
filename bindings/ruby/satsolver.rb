@@ -8,6 +8,3 @@ require 'satsolver.so'
 
 require 'satsolver/covenant'
 require 'satsolver/dump'
-require 'satsolver/job'
-require 'satsolver/request'
-require 'satsolver/ruleinfo'
