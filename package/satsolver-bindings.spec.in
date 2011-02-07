@@ -120,7 +120,6 @@ Authors:
 Requires:       swig %{name}-devel
 Summary:        Swig input files for satsolver bindings
 Group:          Development/Libraries/Other
-BuildArch:      noarch
 
 %description -n satsolver-bindings-devel
 The Swig input files for satsolver bindings allow for reuse of the
