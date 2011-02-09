@@ -20,7 +20,7 @@
 #include "applayer.h"
 #include <solverdebug.h>
 
-#if SATSOLVER_VERSION == 0
+#if SATSOLVER_VERSION < 1640
 extern void solver_printproblemruleinfo(Solver *solv, Id rule);
 #endif
 
