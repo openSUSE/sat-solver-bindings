@@ -34,7 +34,7 @@ ruleinfo_new( Solver *solver, Id rule )
   ri->cmd = solver_ruleinfo((Solver *)solver, rule, &(ri->source), &(ri->target), &(ri->dep));
 #else
   /* extern SolverProbleminfo solver_problemruleinfo(Solver *solv, Queue *job, Id rid, Id *depp, Id *sourcep, Id *targetp); */
-#warning FIXME
+#warning FIXME - satsolver in openSUSE 11.1 does not have ruleinfo
 #endif	
   return ri;
 }
