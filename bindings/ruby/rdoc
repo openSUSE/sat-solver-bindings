@@ -3,6 +3,11 @@
 # This is ./rdoc
 #
 
+unless RUBY_VERSION > "1.8.1"
+  $stderr.puts "Rdoc for SWIG requires Ruby > 1.8.1"
+  exit 0
+end
+
 home = File.dirname __FILE__
 $:.unshift(home)
 new_rdoc = home+"/rdoc.rb"
