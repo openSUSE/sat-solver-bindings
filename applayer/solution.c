@@ -21,7 +21,7 @@
 #include "solution.h"
 #include "request.h"
 
-#include "solverdebug.h"
+#include <solverdebug.h>
 
 Solution *
 solution_new( const Problem *problem, Id id )

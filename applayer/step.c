@@ -14,10 +14,11 @@
  */
 
 #include <stdlib.h>
+#include "applayer.h"
+
 #include "step.h"
 
-#include "applayer.h"
-#include "solverdebug.h"
+#include <solverdebug.h>
 
 Step *
 step_new( Transaction *transaction, Id id )
