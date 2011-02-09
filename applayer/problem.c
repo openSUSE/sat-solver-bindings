@@ -25,7 +25,7 @@
 #include "applayer.h"
 #include <solverdebug.h>
 
-#ifndef SATSOLVER_VERSION
+#if SATSOLVER_VERSION < 1640
 extern void solver_printcompleteprobleminfo(Solver *solv, Id problem);
 #endif
 
