@@ -100,7 +100,7 @@ module RDoc
 	  @@module_name = module_name
 	  do_methods module_name
 	else
-	  do_classes
+	  do_classes module_name
 	  @classes.keys.each do |c|
 	    do_constants c
 	    do_methods c
@@ -227,7 +227,7 @@ module RDoc
     #
     # return Array of classes
     #
-    def do_classes
+    def do_classes module_name = nil
 
       # look for class renames like
       #   %rename(Solvable) _Solvable;
@@ -254,7 +254,16 @@ module RDoc
 	  swig_class = handle_class_module("class", cn, :parent => "rb_cObject", :content => content.to_s, :extend_name => name)
 	end
       end
-      @body.scan(/^%extend\s*(\w+)\s*\{(.*)\}/mx) do |class_name,content|
+      @body.scan(/^%extend\s*([:\w]+)\s*\{(.*)\}/mx) do |class_name,content|
+	full_names = class_name.split("::")
+	case full_names.size
+	when 1  # <classname> (no namespace)
+	when 2  # <namespace>::<classname>
+	  class_name = full_names[-1]
+	else    # <namespace>::<namespace>...::<classname>
+	  $stderr.puts "Cannot cope with nested namespaces in %extend"
+	  exit 1
+	end
 	cn = class_name.to_s
 	unless extends[cn]
 #	  puts "Class #{cn}"
