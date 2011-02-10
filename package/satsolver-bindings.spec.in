@@ -16,10 +16,13 @@ BuildRequires:  doxygen
 BuildRequires:  libneon0.26-devel
 %endif
 %if 0%{?fedora_version}
-BuildRequires:  perl-devel db4-devel ruby ruby-rdoc
+BuildRequires:  perl-devel db4-devel
 %endif
-%if 0%{?rhel_version}
-BuildRequires:  ruby ruby-rdoc
+%if 0%{?fedora_version} || 0%{?rhel_version} || 0%{?centos_version}
+BuildRequires:  ruby
+%if 0%{?fedora_version} || 0%{?rhel_version} > 500 || 0%{?centos_version} > 500
+BuildRequires: ruby-rdoc
+%endif
 %endif
 %if 0%{?suse_version}
 %if 0%{?suse_version} < 1030
@@ -183,6 +186,7 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %files -n ruby-satsolver
 %defattr(-,root,root,-)
+# SUSE
 %if 0%{?suse_version}
 %if 0%{?suse_version} < 1010
 %dir %{_libdir}/ruby/site_ruby/%{rb_ver}/%{rb_arch}
@@ -197,13 +201,15 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_libdir}/ruby/vendor_ruby/%{rb_ver}/%{rb_arch}/satsolver.so
 %endif
 %endif
+# Mandriva
 %if 0%{?mandriva_version}
 %dir %{ruby_sitelibdir}/satsolver
 %{ruby_sitelibdir}/satsolver/*.rb
 %{ruby_sitelibdir}/satsolver.rb
 %{ruby_sitearchdir}/satsolver.so
 %endif
-%if 0%{?fedora_version}
+# Fedora/RHEL/Centos
+%if 0%{?fedora_version} || 0%{?rhel_version} || 0%{?centos_version}
 %dir %{ruby_sitelib}/satsolver
 %{ruby_sitelib}/satsolver.rb
 %{ruby_sitelib}/satsolver/*.rb
