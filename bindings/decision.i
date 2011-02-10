@@ -76,18 +76,21 @@ typedef struct _Decision {} Decision;
    * Explain a decision
    *
    * returns Ruleinfo
+   * Needs 'request' passed for satsolver version 1110
    *
    * call-seq:
-   *  decision.explain -> Ruleinfo
+   *  decision.ruleinfo -> Ruleinfo
+   *  decision.ruleinfo(request) -> Ruleinfo
+   *  
    *
    */
-  __type ruleinfo()
+  __type ruleinfo(Request *t = NULL)
   {
     Swig_Type result = Swig_Null;
     Solver *solver = $self->solver;
     Id rule = $self->rule - solver->rules;
     if (rule > 0) {
-      result = SWIG_NewPointerObj((void*)ruleinfo_new(solver, rule), SWIGTYPE_p__Ruleinfo, 0);
+      result = SWIG_NewPointerObj((void*)ruleinfo_new(solver, rule, t), SWIGTYPE_p__Ruleinfo, 0);
     }
     return result;
   }

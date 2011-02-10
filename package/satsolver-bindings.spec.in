@@ -143,6 +143,11 @@ CMAKE_FLAGS=
 CMAKE_FLAGS="-DFEDORA=1"
 %endif
 
+# Hack for openSUSE 11.1, satsolver has different ruleinfo there
+%if 0%{?suse_version} == 1110 && 0%{?sles_version} == 0
+CMAKE_FLAGS="-DSATSOLVER_VERSION=1110"
+%endif
+
 cmake   $CMAKE_FLAGS \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DPYTHON_SITEDIR=%{py_sitedir} \

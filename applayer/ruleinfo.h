@@ -21,6 +21,7 @@
 
 #include "xsolvable.h"
 #include "relation.h"
+#include "request.h"
 
 typedef struct _Ruleinfo {
   Solver *solver;
@@ -32,7 +33,7 @@ typedef struct _Ruleinfo {
 } Ruleinfo;
 
 
-Ruleinfo *ruleinfo_new( Solver *solver, Id rule );
+Ruleinfo *ruleinfo_new( Solver *solver, Id rule, Request *request );
 char *ruleinfo_string( const Ruleinfo *ri);
 void ruleinfo_free( Ruleinfo *ri );
 

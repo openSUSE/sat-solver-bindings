@@ -99,7 +99,7 @@ problem_ruleinfos_iterate( Problem *problem, int (*callback)(Ruleinfo *ri, void 
   solver_findallproblemrules(problem->solver, problem->id, &rules);
   while ((rule = queue_shift(&rules))) 
     {
-      Ruleinfo *ri = ruleinfo_new( problem->solver, rule );
+      Ruleinfo *ri = ruleinfo_new( problem->solver, rule, problem->request );
       if (callback( ri, user_data ))
 	break;
     }

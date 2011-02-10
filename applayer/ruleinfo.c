@@ -14,27 +14,26 @@
 
 #include <stdlib.h>
 #include <job.h>
-
-#include <ruleinfo.h>
+#include <solverdebug.h>
 
 #include "applayer.h"
-#include <solverdebug.h>
+#include "ruleinfo.h"
 
 #if SATSOLVER_VERSION < 1640
 extern void solver_printproblemruleinfo(Solver *solv, Id rule);
 #endif
 
 Ruleinfo *
-ruleinfo_new( Solver *solver, Id rule )
+ruleinfo_new( Solver *solver, Id rule, Request *request )
 {
   Ruleinfo *ri = (Ruleinfo *)calloc( 1, sizeof( Ruleinfo ));
   ri->solver = solver;
   ri->id = rule;
-#if SATSOLVER_VERSION > 0
+#if SATSOLVER_VERSION > 1110
   ri->cmd = solver_ruleinfo((Solver *)solver, rule, &(ri->source), &(ri->target), &(ri->dep));
 #else
-  /* extern SolverProbleminfo solver_problemruleinfo(Solver *solv, Queue *job, Id rid, Id *depp, Id *sourcep, Id *targetp); */
-#warning FIXME - satsolver in openSUSE 11.1 does not have ruleinfo
+  /* thats for openSUSE 11.1 */
+  ri->cmd = solver_problemruleinfo(solver, &(request->queue), rule, &(ri->dep), &(ri->source), &(ri->target));
 #endif	
   return ri;
 }
@@ -62,6 +61,7 @@ ruleinfo_command_string(const Ruleinfo *ri)
   switch (ri->cmd) 
     {
 #define rulecase(r) case r: return #r; break
+#if SATSOLVER_VERSION > 1110
       rulecase(SOLVER_RULE_UNKNOWN);
       rulecase(SOLVER_RULE_RPM);
       rulecase(SOLVER_RULE_RPM_NOT_INSTALLABLE);
@@ -79,6 +79,19 @@ ruleinfo_command_string(const Ruleinfo *ri)
       rulecase(SOLVER_RULE_DISTUPGRADE);
       rulecase(SOLVER_RULE_INFARCH);
       rulecase(SOLVER_RULE_LEARNT);
+#else
+      rulecase(SOLVER_PROBLEM_UPDATE_RULE);
+      rulecase(SOLVER_PROBLEM_JOB_RULE);
+      rulecase(SOLVER_PROBLEM_JOB_NOTHING_PROVIDES_DEP);
+      rulecase(SOLVER_PROBLEM_NOT_INSTALLABLE);
+      rulecase(SOLVER_PROBLEM_NOTHING_PROVIDES_DEP);
+      rulecase(SOLVER_PROBLEM_SAME_NAME);
+      rulecase(SOLVER_PROBLEM_PACKAGE_CONFLICT);
+      rulecase(SOLVER_PROBLEM_PACKAGE_OBSOLETES);
+      rulecase(SOLVER_PROBLEM_DEP_PROVIDERS_NOT_INSTALLABLE);
+      rulecase(SOLVER_PROBLEM_SELF_CONFLICT);
+      rulecase(SOLVER_PROBLEM_RPM_RULE);
+#endif				  
 #undef rulecase
     default:
       break;
@@ -103,7 +116,11 @@ ruleinfo_command(const Ruleinfo *ri)
 Job *
 ruleinfo_job(const Ruleinfo *ri)
 {
+#if SATSOLVER_VERSION > 1110
   if (ri->cmd != SOLVER_RULE_JOB)
+#else
+  if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
+#endif
     return NULL;
   return job_new( ri->solver->pool, ri->target, ri->source);
 }
@@ -112,7 +129,11 @@ ruleinfo_job(const Ruleinfo *ri)
 XSolvable *
 ruleinfo_source(const Ruleinfo *ri)
 {
-  if (ri->cmd == SOLVER_RULE_JOB)
+#if SATSOLVER_VERSION > 1110
+  if (ri->cmd != SOLVER_RULE_JOB)
+#else
+  if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
+#endif
     return NULL;
   return ri->source ? xsolvable_new( ri->solver->pool, ri->source ) : NULL;
 }
@@ -121,7 +142,11 @@ ruleinfo_source(const Ruleinfo *ri)
 XSolvable *
 ruleinfo_target(const Ruleinfo *ri)
 {
-  if (ri->cmd == SOLVER_RULE_JOB)
+#if SATSOLVER_VERSION > 1110
+  if (ri->cmd != SOLVER_RULE_JOB)
+#else
+  if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
+#endif
     return NULL;
   return ri->target ? xsolvable_new( ri->solver->pool, ri->target ) : NULL;
 }
@@ -130,7 +155,11 @@ ruleinfo_target(const Ruleinfo *ri)
 Relation *
 ruleinfo_relation(const Ruleinfo *ri)
 {
-  if (ri->cmd == SOLVER_RULE_JOB)
+#if SATSOLVER_VERSION > 1110
+  if (ri->cmd != SOLVER_RULE_JOB)
+#else
+  if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
+#endif
     return NULL;
   return ri->dep ? relation_new( ri->solver->pool, ri->dep ) : NULL;
 }
