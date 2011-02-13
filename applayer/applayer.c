@@ -85,7 +85,7 @@ my_id2str( const Pool *pool, Id id )
     return NULL;
   if (id == STRID_EMPTY)
     return "";
-#if SATSOLVER_VERSION > 0
+#if SATSOLVER_VERSION_MINOR >= 16
   return id2str( pool, id );
 #else /* drop const for older satsolver */
   return id2str( (Pool *)pool, id );
