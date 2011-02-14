@@ -205,7 +205,15 @@ xsolvable_find( Pool *pool, const char *name, const Repo *repo )
   }
 
   prune_to_best_arch(pool, &plist);
+#if SATSOLVER_VERSION > 1600
   prune_to_best_version(pool, &plist);
+#else
+  {
+    Solver *solver = solver_create( pool);
+    prune_to_best_version(solver, &plist);
+    solver_free( solver );
+  }
+#endif
   if (plist.count == 0) {
     return NULL;
   }

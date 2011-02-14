@@ -44,7 +44,11 @@ char *
 solution_string( const Solution *s )
 {
   app_debugstart(s->problem->solver->pool,SAT_DEBUG_RESULT);
+#if SATSOLVER_VERSION > 1300
   solver_printsolution(s->problem->solver, s->problem->id, s->id);
+#else
+  solver_printsolutions(s->problem->solver, &s->problem->request->queue);
+#endif
   return app_debugend();
 }
 
@@ -158,7 +162,7 @@ solutionelement_job( const SolutionElement *se )
 {
   const Problem *problem = se->solution->problem;
   Pool *pool = problem->solver->pool;
-  
+#if SATSOLVER_VERSION > 1300
   switch (se->p) {
     case SOLVER_SOLUTION_INFARCH:
       return job_new( pool, SOLVER_INSTALL|SOLVER_SOLVABLE, se->rp );
@@ -170,5 +174,8 @@ solutionelement_job( const SolutionElement *se )
       return request_job_get( problem->request, se->rp);
       break;
   }
+#else
+  return NULL;
+#endif
   return job_new( pool, SOLVER_INSTALL|SOLVER_SOLVABLE, se->rp );
 }

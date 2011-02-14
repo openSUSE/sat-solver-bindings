@@ -29,7 +29,7 @@ ruleinfo_new( Solver *solver, Id rule, Request *request )
   Ruleinfo *ri = (Ruleinfo *)calloc( 1, sizeof( Ruleinfo ));
   ri->solver = solver;
   ri->id = rule;
-#if SATSOLVER_VERSION > 1110
+#if SATSOLVER_VERSION > 1300
   ri->cmd = solver_ruleinfo((Solver *)solver, rule, &(ri->source), &(ri->target), &(ri->dep));
 #else
   /* thats for openSUSE 11.1 */
@@ -61,7 +61,7 @@ ruleinfo_command_string(const Ruleinfo *ri)
   switch (ri->cmd) 
     {
 #define rulecase(r) case r: return #r; break
-#if SATSOLVER_VERSION > 1110
+#if SATSOLVER_VERSION > 1300
       rulecase(SOLVER_RULE_UNKNOWN);
       rulecase(SOLVER_RULE_RPM);
       rulecase(SOLVER_RULE_RPM_NOT_INSTALLABLE);
@@ -116,7 +116,7 @@ ruleinfo_command(const Ruleinfo *ri)
 Job *
 ruleinfo_job(const Ruleinfo *ri)
 {
-#if SATSOLVER_VERSION > 1110
+#if SATSOLVER_VERSION > 1300
   if (ri->cmd != SOLVER_RULE_JOB)
 #else
   if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
@@ -129,7 +129,7 @@ ruleinfo_job(const Ruleinfo *ri)
 XSolvable *
 ruleinfo_source(const Ruleinfo *ri)
 {
-#if SATSOLVER_VERSION > 1110
+#if SATSOLVER_VERSION > 1300
   if (ri->cmd != SOLVER_RULE_JOB)
 #else
   if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
@@ -142,7 +142,7 @@ ruleinfo_source(const Ruleinfo *ri)
 XSolvable *
 ruleinfo_target(const Ruleinfo *ri)
 {
-#if SATSOLVER_VERSION > 1110
+#if SATSOLVER_VERSION > 1300
   if (ri->cmd != SOLVER_RULE_JOB)
 #else
   if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)
@@ -155,7 +155,7 @@ ruleinfo_target(const Ruleinfo *ri)
 Relation *
 ruleinfo_relation(const Ruleinfo *ri)
 {
-#if SATSOLVER_VERSION > 1110
+#if SATSOLVER_VERSION > 1300
   if (ri->cmd != SOLVER_RULE_JOB)
 #else
   if (ri->cmd != SOLVER_PROBLEM_JOB_RULE)

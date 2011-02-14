@@ -48,12 +48,17 @@ step_xsolvable( const Step *s )
 int
 step_type( const Step *s, int mode )
 {
+#if SATSOLVER_VERSION > 1600
   return transaction_type(s->transaction, s->id, mode);
+#else
+  return 0;
+#endif
 }
 
 const char *
 step_type_s( const Step *s, int mode )
 {
+#if SATSOLVER_VERSION > 1600
   switch( step_type(s, mode) ) {    
   case SOLVER_TRANSACTION_IGNORE:         return "ignore";
   case SOLVER_TRANSACTION_ERASE:          return "erase";
@@ -73,6 +78,7 @@ step_type_s( const Step *s, int mode )
   default:
     break;
   }
+#endif
   return "unknown";
 }
 
@@ -97,9 +103,17 @@ step_get( Transaction *transaction, unsigned int num)
 {
   Id p;
   if (!transaction
+#if SATSOLVER_VERSION > 1600
       || num >= transaction->steps.count)
+#else
+      || num >= transaction->queue.count)
+#endif
     return NULL;
+#if SATSOLVER_VERSION > 1600
   p = transaction->steps.elements[num];
+#else
+  p = transaction->queue.elements[num];
+#endif
   return step_new( transaction, p );
 }
 
@@ -108,7 +122,11 @@ void
 transaction_steps_iterate( Transaction *t, int (*callback)( const Step *s, void *user_data ), void *user_data)
 {
   int i;
+#if SATSOLVER_VERSION > 1600
   for (i = 0; i < t->steps.count; ++i )
+#else
+  for (i = 0; i < t->queue.count; ++i )
+#endif
     {
       if (callback( step_get( t, i ), user_data ) )
 	break;
@@ -119,7 +137,9 @@ char *
 transaction_string( Solver *s )
 {
   app_debugstart(s->pool,SAT_DEBUG_RESULT);
+#if SATSOLVER_VERSION > 1600
   solver_printtransaction(s);
+#endif
   return app_debugend();
 }
 
