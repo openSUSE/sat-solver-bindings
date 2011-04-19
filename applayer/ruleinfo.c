@@ -19,7 +19,7 @@
 #include "applayer.h"
 #include "ruleinfo.h"
 
-#if SATSOLVER_VERSION < 1640
+#if SATSOLVER_VERSION < 1300
 extern void solver_printproblemruleinfo(Solver *solv, Id rule);
 #endif
 
@@ -42,9 +42,17 @@ ruleinfo_new( Solver *solver, Id rule, Request *request )
 char *
 ruleinfo_string( const Ruleinfo *ri )
 {
+#if SATSOLVER_VERSION > 1610
+  return strdup(solver_problemruleinfo2str(ri->solver, ri->cmd, ri->source, ri->target, ri->dep));
+#else
   app_debugstart(ri->solver->pool,SAT_DEBUG_RESULT);
+# if SATSOLVER_VERSION < 1300
   solver_printproblemruleinfo(ri->solver, ri->id);
+#else
+  solver_printrule(ri->solver, ri->cmd, &(ri->solver->rules[ri->id]));
+#endif
   return app_debugend();
+#endif
 }
 
 
