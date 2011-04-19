@@ -23,6 +23,7 @@
  *  (aka 'attribute' files, referenced from within the main .solv file)
  */
 
+#if SATSOLVER_VERSION > 1600
 static int
 poolloadcallback( Pool *pool, Repodata *data, void *vdata )
 {
@@ -41,7 +42,23 @@ poolloadcallback( Pool *pool, Repodata *data, void *vdata )
   fclose(fp);
   return r ? 0 : 1;
 }
-
+#else
+static FILE *
+poolloadcallback( Pool *pool, Repodata *data, void *vdata )
+{
+  FILE *fp;
+  const char *location = repodata_lookup_str(data, SOLVID_META, REPOSITORY_LOCATION);
+  if (!location)
+    return 0;
+  fp = fopen(location, "r");
+  if (!fp)
+    {
+      fprintf( stderr, "*** failed reading %s\n", location );
+      return 0;
+    }
+  return fp;
+}
+#endif
 
 /*
  * namespace callback
@@ -67,8 +84,10 @@ poolnscallback(Pool *pool, void *data, Id name, Id value)
     break;
     case NAMESPACE_FILESYSTEM:
     break;
+#if SATSOLVER_VERSION > 1600
     case NAMESPACE_PRODUCTBUDDY:
     break;
+#endif
   }
   return id;
 }
@@ -216,6 +235,8 @@ typedef struct _Pool {} Pool;
   void set_promoteepoch( int b )
   { $self->promoteepoch = b; }
 
+
+#if SATSOLVER_VERSION > 1600
 #if defined(SWIGRUBY)
   %typemap(out) int no_virtual_conflicts
     "$result = $1 ? Qtrue : Qfalse;";
@@ -240,7 +261,10 @@ typedef struct _Pool {} Pool;
    */
   void set_no_virtual_conflicts( int bflag )
   { $self->novirtualconflicts = bflag; }
+#endif
 
+
+#if SATSOLVER_VERSION > 1600
 #if defined(SWIGRUBY)
   %typemap(out) int allow_self_conflicts
     "$result = $1 ? Qtrue : Qfalse;";
@@ -267,7 +291,10 @@ typedef struct _Pool {} Pool;
    */
   void set_allow_self_conflicts( int bflag )
   { $self->allowselfconflicts = bflag; }
+#endif
 
+
+#if SATSOLVER_VERSION > 1600
 #if defined(SWIGRUBY)
   %typemap(out) int obsolete_uses_provides
     "$result = $1 ? Qtrue : Qfalse;";
@@ -297,7 +324,10 @@ typedef struct _Pool {} Pool;
    */
   void set_obsolete_uses_provides( int bflag )
   { $self->obsoleteusesprovides= bflag; }
+#endif
 
+
+#if SATSOLVER_VERSION > 1600
 #if defined(SWIGRUBY)
   %typemap(out) int implicit_obsolete_uses_provides
     "$result = $1 ? Qtrue : Qfalse;";
@@ -322,6 +352,8 @@ typedef struct _Pool {} Pool;
    */
   void set_implicit_obsolete_uses_provides( int bflag )
   { $self->implicitobsoleteusesprovides= bflag; }
+#endif
+
 
   /*
    * Set the pool to an _unprepared_ status.
@@ -517,9 +549,17 @@ typedef struct _Pool {} Pool;
     Pool *pool = $self;
     Repo *r;
     int i;
-
+#if SATSOLVER_VERSION < 1600
+    struct _Repo **repos;
+    for (i = 0; i < pool->nrepos; ++i) {
+      r = *repos++;
+#else
     FOR_REPOS(i, r)
+#endif    
       rb_yield(SWIG_NewPointerObj((void*)r, SWIGTYPE_p__Repo, 0));
+#if SATSOLVER_VERSION < 1600
+    }
+#endif
   }
 #endif
 #if defined(SWIGPYTHON)
@@ -537,9 +577,15 @@ typedef struct _Pool {} Pool;
     Repo *r;
     int i;
     PtrIndex pi;
-
     NewPtrIndex(pi,const Repo **,$self->nrepos);
-    FOR_REPOS(i, r) {
+#if SATSOLVER_VERSION < 1600
+    struct _Repo **repos;
+    for (i = 0; i < pool->nrepos; ++i) {
+      r = *repos++;
+#else
+    FOR_REPOS(i, r)
+    {
+#endif
       AddPtrIndex((&pi),const Repo **,r);
     }
     ReturnPtrIndex(pi,const Repo **);
@@ -559,10 +605,18 @@ typedef struct _Pool {} Pool;
     Pool *pool = $self;
     Repo *r;
     int i;
-
+#if SATSOLVER_VERSION < 1600
+    struct _Repo **repos;
+    for (i = 0; i < pool->nrepos; ++i) {
+      r = *repos++;
+#else
     FOR_REPOS(i, r)
+#endif
       if (!strcmp(r->name, name))
         return r;
+#if SATSOLVER_VERSION < 1600
+    }
+#endif
     return NULL;
   }
 
@@ -688,8 +742,16 @@ typedef struct _Pool {} Pool;
    */
   int providers_count( const char *name )
   { int i = 0;
-    Id v, *vp;
-    for (vp = pool_whatprovides_ptr($self, str2id( $self, name, 0)) ; (v = *vp++) != 0; )
+    Id v;
+    Id d = str2id( $self, name, 0);
+#if SATSOLVER_VERSION > 1300
+    Id *vp;
+    for (vp = pool_whatprovides_ptr($self, d) ; (v = *vp++) != 0; )
+#else
+    Id vp;
+    Pool *pool = $self;
+    FOR_PROVIDES(v, vp, d)
+#endif
       ++i;
     return i;
   }
@@ -703,8 +765,15 @@ typedef struct _Pool {} Pool;
    */
   int providers_count( Relation *rel )
   { int i = 0;
-    Id v, *vp;
+    Id v;
+#if SATSOLVER_VERSION > 1300
+    Id *vp;
     for (vp = pool_whatprovides_ptr($self, rel->id) ; (v = *vp++) != 0; )
+#else
+    Id vp;
+    Pool *pool = $self;
+    FOR_PROVIDES(v, vp, rel->id)
+#endif
       ++i;
     return i;
   }
@@ -716,9 +785,20 @@ typedef struct _Pool {} Pool;
    *
    */
   XSolvable *providers_get( const char *name, int i)
-  { Id *vp;
-    vp = pool_whatprovides_ptr($self, str2id( $self, name, 0));
+  { Id d = str2id( $self, name, 0);
+#if SATSOLVER_VERSION > 1300
+    Id *vp;
+    vp = pool_whatprovides_ptr($self, d);
     return xsolvable_new( $self, *(vp + i));
+#else
+    Id v, vp;
+    Pool *pool = $self;
+    FOR_PROVIDES(v, vp, d) {
+      if (i-- == 0)
+        break;
+    }
+    return xsolvable_new( $self, v);    
+#endif
   }
  
   /*
@@ -728,9 +808,20 @@ typedef struct _Pool {} Pool;
    *
    */
   XSolvable *providers_get( Relation *rel, int i)
-  { Id *vp;
+  { 
+#if SATSOLVER_VERSION > 1300
+    Id *vp;
     vp = pool_whatprovides_ptr($self, rel->id);
     return xsolvable_new( $self, *(vp + i));
+#else
+    Id v, vp;
+    Pool *pool = $self;
+    FOR_PROVIDES(v, vp, rel->id) {
+      if (i-- == 0)
+        break;
+    }
+    return xsolvable_new( $self, v);    
+#endif
   }
   
 #if defined(SWIGPYTHON)
