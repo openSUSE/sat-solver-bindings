@@ -1,4 +1,16 @@
 -------------------------------------------------------------------
+Wed Apr 20 14:17:22 UTC 2011 - kkaempf@novell.com
+
+- 0.43.0
+  Python improvements, more tests, proper typemaps for Problems,
+  Solutions, Ruleinfo, etc.
+
+-------------------------------------------------------------------
+Mon Feb 14 11:50:06 UTC 2011 - kkaempf@novell.com
+
+- Improve building with older versions of libsatsolver.
+
+-------------------------------------------------------------------
 Tue Feb  1 12:51:05 UTC 2011 - kkaempf@novell.com
 
 - Split satsolver-bindings from satsolver in order to provide
