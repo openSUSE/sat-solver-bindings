@@ -4,4 +4,4 @@
 
 ENABLE_TESTING()
 
-ADD_TEST(bindings_python_loading  python ${CMAKE_CURRENT_SOURCE_DIR}/loading.py)
+ADD_TEST(bindings_python_loading    ${CMAKE_CURRENT_SOURCE_DIR}/run ${CMAKE_CURRENT_SOURCE_DIR} loading.py )
