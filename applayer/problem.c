@@ -52,16 +52,16 @@ problem_string( const Problem *p, int full )
 
   if (full == 0) {
     app_debugstart(pool,SAT_DEBUG_RESULT);
-#if SATSOLVER_VERSION > 0
+#if SATSOLVER_VERSION >= 1500
     solver_printcompleteprobleminfo(p->solver, p->id);
 #endif
   }
   else if (full > 0) {
     app_debugstart(pool,SAT_DEBUG_RESULT);
-#if SATSOLVER_VERSION > 1600
-    solver_printprobleminfo(p->solver, p->id);
-#else
+#if SATSOLVER_VERSION < 1400
     solver_printprobleminfo(p->solver, &(p->request->queue), p->id);
+#else
+    solver_printprobleminfo(p->solver, p->id);
 #endif
   }
   else {

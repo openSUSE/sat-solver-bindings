@@ -23,7 +23,23 @@
  *  (aka 'attribute' files, referenced from within the main .solv file)
  */
 
-#if SATSOLVER_VERSION > 1600
+#if SATSOLVER_VERSION < 1400
+static FILE *
+poolloadcallback( Pool *pool, Repodata *data, void *vdata )
+{
+  FILE *fp;
+  const char *location = repodata_lookup_str(data, SOLVID_META, REPOSITORY_LOCATION);
+  if (!location)
+    return 0;
+  fp = fopen(location, "r");
+  if (!fp)
+    {
+      fprintf( stderr, "*** failed reading %s\n", location );
+      return 0;
+    }
+  return fp;
+}
+#else
 static int
 poolloadcallback( Pool *pool, Repodata *data, void *vdata )
 {
@@ -41,22 +57,6 @@ poolloadcallback( Pool *pool, Repodata *data, void *vdata )
   r = repo_add_solv_flags(data->repo, fp, REPO_USE_LOADING|REPO_LOCALPOOL);
   fclose(fp);
   return r ? 0 : 1;
-}
-#else
-static FILE *
-poolloadcallback( Pool *pool, Repodata *data, void *vdata )
-{
-  FILE *fp;
-  const char *location = repodata_lookup_str(data, SOLVID_META, REPOSITORY_LOCATION);
-  if (!location)
-    return 0;
-  fp = fopen(location, "r");
-  if (!fp)
-    {
-      fprintf( stderr, "*** failed reading %s\n", location );
-      return 0;
-    }
-  return fp;
 }
 #endif
 

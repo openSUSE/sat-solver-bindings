@@ -144,7 +144,7 @@ CMAKE_FLAGS=
 CMAKE_FLAGS="-DFEDORA=1"
 %endif
 
-# Hack for openSUSE 11.1, satsolver has different ruleinfo there
+# Hack for distributions not defining SATSOLVER_VERSION
 %if 0%{?suse_version} == 1110 && 0%{?sles_version} == 0
 CMAKE_FLAGS="-DSATSOLVER_VERSION=1110"
 %endif

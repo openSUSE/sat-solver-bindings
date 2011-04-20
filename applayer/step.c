@@ -103,16 +103,16 @@ step_get( Transaction *transaction, unsigned int num)
 {
   Id p;
   if (!transaction
-#if SATSOLVER_VERSION > 1600
-      || num >= transaction->steps.count)
-#else
+#if SATSOLVER_VERSION < 1400
       || num >= transaction->queue.count)
+#else
+      || num >= transaction->steps.count)
 #endif
     return NULL;
-#if SATSOLVER_VERSION > 1600
-  p = transaction->steps.elements[num];
-#else
+#if SATSOLVER_VERSION < 1400
   p = transaction->queue.elements[num];
+#else
+  p = transaction->steps.elements[num];
 #endif
   return step_new( transaction, p );
 }
@@ -122,10 +122,10 @@ void
 transaction_steps_iterate( Transaction *t, int (*callback)( const Step *s, void *user_data ), void *user_data)
 {
   int i;
-#if SATSOLVER_VERSION > 1600
-  for (i = 0; i < t->steps.count; ++i )
-#else
+#if SATSOLVER_VERSION < 1400
   for (i = 0; i < t->queue.count; ++i )
+#else
+  for (i = 0; i < t->steps.count; ++i )
 #endif
     {
       if (callback( step_get( t, i ), user_data ) )
@@ -137,7 +137,7 @@ char *
 transaction_string( Solver *s )
 {
   app_debugstart(s->pool,SAT_DEBUG_RESULT);
-#if SATSOLVER_VERSION > 1600
+#if SATSOLVER_VERSION >= 1400
   solver_printtransaction(s);
 #endif
   return app_debugend();
