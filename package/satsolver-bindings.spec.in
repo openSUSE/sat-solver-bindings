@@ -1,3 +1,4 @@
+%define run_testsuite 1
 
 Name:           satsolver-bindings
 Version:        @VERSION@
