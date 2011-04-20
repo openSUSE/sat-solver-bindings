@@ -49,3 +49,12 @@ SET(SATSOLVER_BINDINGS_MINOR "42")
 SET(SATSOLVER_BINDINGS_PATCH "0")
 
 # last released 0.16.0
+
+# libsatsolver releases
+# SLES-11       : 0.13.x (0.13.4 - GA, 0.14.17 - SP1-GA)
+# openSUSE 11.2 : 0.14.x
+# MeeGo 1.0     : 0.14.16
+# SLES-11-SP1   : 0.14.17
+# MeeGo 1.1     : 0.15.0
+# openSUSE 11.3 : 0.15.x
+# openSUSE 11.4 : 0.16.x
