@@ -1,12 +1,24 @@
 /*-------------------------------------------------------------
  * Generic helpers (SWIG)
  */
- 
+
+/*---------------------------------------------------------------
+
+  G E N E R I C
+  
+  ---------------------------------------------------------------*/
+
 /* types and typemaps */
 
 %typemap(newfree) char * {
   free($1);
 }
+
+/*---------------------------------------------------------------
+
+  R U B Y
+  
+  ---------------------------------------------------------------*/
 
 #if defined(SWIGRUBY)
 
@@ -29,6 +41,12 @@
    $1 = RTEST( $input );
 }
 #endif
+
+/*---------------------------------------------------------------
+
+  P E R L
+  
+  ---------------------------------------------------------------*/
 
 /*
  * FILE * to Perl
@@ -160,6 +178,12 @@
 }
 #endif
 
+/*---------------------------------------------------------------
+
+  P Y T H O N
+  
+  ---------------------------------------------------------------*/
+
 #if defined(SWIGPYTHON)
 /*
  * XSolvable array to Python
@@ -174,6 +198,80 @@
 
     for (i = 0; i < n; i++) {
         PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Solvable, 0);
+        PyList_SetItem($result, i, item);
+    }
+    free($1);
+}
+
+/*
+ * Problem* array to Python
+ */
+%typemap(out) Problem ** {
+    int n, i;
+
+    for (n = 0; $1[n];)
+        n++;
+
+    $result = PyList_New(n);
+
+    for (i = 0; i < n; i++) {
+        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Problem, 0);
+        PyList_SetItem($result, i, item);
+    }
+    free($1);
+}
+
+/*
+ * Solution* array to Python
+ */
+%typemap(out) Solution ** {
+    int n, i;
+
+    for (n = 0; $1[n];)
+        n++;
+
+    $result = PyList_New(n);
+
+    for (i = 0; i < n; i++) {
+        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Solution, 0);
+        PyList_SetItem($result, i, item);
+    }
+    free($1);
+}
+
+
+/*
+ * Ruleinfo* array to Python
+ */
+%typemap(out) Ruleinfo ** {
+    int n, i;
+
+    for (n = 0; $1[n];)
+        n++;
+
+    $result = PyList_New(n);
+
+    for (i = 0; i < n; i++) {
+        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Ruleinfo, 0);
+        PyList_SetItem($result, i, item);
+    }
+    free($1);
+}
+
+
+/*
+ * SolutionElement* array to Python
+ */
+%typemap(out) SolutionElement ** {
+    int n, i;
+
+    for (n = 0; $1[n];)
+        n++;
+
+    $result = PyList_New(n);
+
+    for (i = 0; i < n; i++) {
+        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__SolutionElement, 0);
         PyList_SetItem($result, i, item);
     }
     free($1);
