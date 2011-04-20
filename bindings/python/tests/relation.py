@@ -35,7 +35,7 @@ class TestSequenceFunctions(unittest.TestCase):
     self.repo = satsolver.Repo( self.pool, "test" )
     assert self.repo
     self.pool.set_arch("i686")
-    self.repo = self.pool.add_solv( "os11-biarch.solv" )
+    self.repo = self.pool.add_solv( "../../testdata/os11-biarch.solv" )
     assert self.repo.size() > 0
 
   def test_relation_accessors(self):
