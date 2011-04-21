@@ -49,7 +49,7 @@ ruleinfo_string( const Ruleinfo *ri )
 # if SATSOLVER_VERSION < 1300
   solver_printproblemruleinfo(ri->solver, ri->id);
 #else
-  solver_printrule(ri->solver, ri->cmd, &(ri->solver->rules[ri->id]));
+  solver_printrule(ri->solver, SAT_DEBUG_RESULT, ri->solver->rules + ri->id);
 #endif
   return app_debugend();
 #endif

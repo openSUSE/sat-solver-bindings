@@ -64,6 +64,7 @@ class TestSequenceFunctions(unittest.TestCase):
         j = j + 1
 #        print "%d.%d: cmd: %s\n\tRuleinfo: %s" % (i, j, ri.command_s(), ri)
         print "%d.%d: cmd: %s\n" % (i, j, ri.command_s())
+        print "\tRuleinfo %s\n" % ri
         job = ri.job()
         if job:
           print "\tJob %s" % job
