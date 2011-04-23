@@ -176,6 +176,27 @@
     }
     free($1);
 }
+
+
+/*
+ * Step* array to Perl
+ */
+%typemap(out) Step ** {
+    int n, i;
+
+    for (n = 0; $1[n];)
+        n++;
+
+    if (n > items)
+        EXTEND(sp, n - items);
+
+    for (i = 0; i < n; i++) {
+        ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Step, 0 ); /* SWIG_OWNER | SWIG_SHADOW */
+/*	solutionelement_free((SolutionElement  *)$1[i]);*/
+        argvi++;
+    }
+    free($1);
+}
 #endif
 
 /*---------------------------------------------------------------
@@ -272,6 +293,24 @@
 
     for (i = 0; i < n; i++) {
         PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__SolutionElement, 0);
+        PyList_SetItem($result, i, item);
+    }
+    free($1);
+}
+
+/*
+ * Step* array to Python
+ */
+%typemap(out) Step ** {
+    int n, i;
+
+    for (n = 0; $1[n];)
+        n++;
+
+    $result = PyList_New(n);
+
+    for (i = 0; i < n; i++) {
+        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Step, 0);
         PyList_SetItem($result, i, item);
     }
     free($1);
