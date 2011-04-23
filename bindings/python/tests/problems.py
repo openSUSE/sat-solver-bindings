@@ -119,5 +119,10 @@ class TestSequenceFunctions(unittest.TestCase):
     request.install( solvCC )
     assert self.solve_and_check( self.pool, self.installed, request )
 
+  def test_full_install(self):
+    request = self.pool.create_request()
+    request.install( "gnome-desktop" )
+    assert self.solve_and_check( self.pool, self.installed, request )
+
 if __name__ == '__main__':
   unittest.main()
