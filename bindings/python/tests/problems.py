@@ -16,7 +16,9 @@
 import unittest
 
 import sys
-sys.path.insert(0, '../../../build/bindings/python')
+import os
+
+sys.path.insert(0, os.path.abspath(__file__ +'/../../../../build/bindings/python'))
 
 import satsolver
 
@@ -28,7 +30,7 @@ class TestSequenceFunctions(unittest.TestCase):
     self.pool = satsolver.Pool()
     assert self.pool
     self.pool.set_arch("i686")
-    self.pool.add_solv( "../../testdata/os11-biarch.solv" )
+    self.pool.add_solv( os.path.abspath(__file__+"/../../../testdata/os11-biarch.solv" ))
     assert self.pool.size() > 0
     
     
@@ -63,11 +65,11 @@ class TestSequenceFunctions(unittest.TestCase):
       for ri in p.ruleinfos():
         j = j + 1
 #        print "%d.%d: cmd: %s\n\tRuleinfo: %s" % (i, j, ri.command_s(), ri)
-        print "%d.%d: cmd: %s\n" % (i, j, ri.command_s())
+        print "\n%d.%d: cmd: %s\n" % (i, j, ri.command_s())
         print "\tRuleinfo %s\n" % ri
         job = ri.job()
         if job:
-          print "\tJob %s" % job
+          print "\tJob %s\n" % job
 
     return True
 
@@ -100,8 +102,8 @@ class TestSequenceFunctions(unittest.TestCase):
     request = self.pool.create_request()
     solvA = self.pool.find( "A", self.repo )
     solvB = self.pool.find( "B", self.repo )
-    solvA.conflicts().add(self.pool.create_relation( solvB.name, satsolver.REL_EQ, solvB.evr ))
-    solvB.conflicts().add(self.pool.create_relation( solvA.name, satsolver.REL_EQ, solvA.evr ))
+    solvA.conflicts().add(self.pool.create_relation( solvB.name(), satsolver.REL_EQ, solvB.evr() ))
+    solvB.conflicts().add(self.pool.create_relation( solvA.name(), satsolver.REL_EQ, solvA.evr() ))
     request.install( solvA )
     request.install( solvB )
     assert self.solve_and_check( self.pool, self.installed, request )
