@@ -56,6 +56,12 @@ class TestSequenceFunctions(unittest.TestCase):
     res = solver.solve( request )
     assert res.__class__.__name__ == 'bool', res.__class__.__name__
     if res == True:
+        print "\nSolved ok\n"
+        t = solver.transaction()
+        t.order()
+        print "Transaction with %d steps" % t.size()
+        for s in t.steps():
+            print "Step %s %s" % (s.type_s(), s.solvable())
         return res
     # solver not successful, show problems
     i = 0
@@ -64,13 +70,11 @@ class TestSequenceFunctions(unittest.TestCase):
       j = 0
       for ri in p.ruleinfos():
         j = j + 1
-#        print "%d.%d: cmd: %s\n\tRuleinfo: %s" % (i, j, ri.command_s(), ri)
-        print "\n%d.%d: cmd: %s\n" % (i, j, ri.command_s())
-        print "\tRuleinfo %s\n" % ri
+        print "%d.%d: cmd: %s, Ruleinfo %s" % (i, j, ri.command_s(), ri)
         job = ri.job()
         if job:
-          print "\tJob %s\n" % job
-
+          print "\tJob %s" % job
+    print "-----\n"
     return True
 
 
