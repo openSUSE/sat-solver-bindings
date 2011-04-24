@@ -142,10 +142,9 @@ typedef struct _Transaction {} Transaction;
   const Step **steps()
   {
     PtrIndex pi;
-    NewPtrIndex(pi,const Step **,$self->steps.count);
+    NewPtrIndex(pi, const Step **, $self->steps.count);
     transaction_steps_iterate( $self, transaction_steps_iterate_callback, &pi );
-    ReturnPtrIndex(pi,const Step **);
-
+    ReturnPtrIndex(pi, const Step **);
   }
 #endif  
 }
