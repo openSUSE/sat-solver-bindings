@@ -730,7 +730,12 @@ typedef struct solver {} Solver;
     if ($self->problems.count) {
       return NULL;
     }
-    return &$self->trans;
+    /* Transaction is part of Solver but without reference to Solver
+       The memcpy below allows the Solver to be free independently
+       from the Transaction */
+    Transaction *t = malloc(sizeof(Transaction));
+    memcpy(t, &$self->trans, sizeof(Transaction));
+    return t;
   }
 
   /*
