@@ -6,7 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 #
 
 # test Transaction
-require 'ruleinfo'
+require 'satsolver'
 
 class TransactionTest < Test::Unit::TestCase
   def test_transaction
@@ -50,6 +50,8 @@ class TransactionTest < Test::Unit::TestCase
     solver.solve( request )
     puts "** Problems found" if solver.problems?
     transaction = solver.transaction
+    solver = nil
+    GC.start
     assert transaction
     assert transaction.size > 0
     assert !transaction.empty?
