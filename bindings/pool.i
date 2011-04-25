@@ -638,11 +638,9 @@ typedef struct _Pool {} Pool;
   Relation *create_relation( const char *name, int op = 0, const char *evr = NULL )
   {
     if (op && !evr)
-      SWIG_exception( SWIG_NullReferenceError, "Relation operator with NULL evr" );
+      SWIG_exception_fail( SWIG_NullReferenceError, "Relation operator with NULL evr" );
     return relation_create( $self, name, op, evr );
-#if defined(SWIGPYTHON) || defined(SWIGPERL)
     fail:
-#endif
     return NULL;
   }
 

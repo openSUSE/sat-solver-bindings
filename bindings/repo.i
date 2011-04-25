@@ -394,12 +394,12 @@ typedef struct _Repo {} Repo;
       name = StringValuePtr( attrname );
 #endif
     if (!name)
-      SWIG_exception( SWIG_ValueError, "Attribute name missing" );
+      SWIG_exception_fail( SWIG_ValueError, "Attribute name missing" );
 
     /* key existing in pool ? */
     key = str2id( $self->pool, name, 0);
     if (key == ID_NULL)
-      SWIG_exception( SWIG_ValueError, "No such attribute name" );
+      SWIG_exception_fail( SWIG_ValueError, "No such attribute name" );
 
     dataiterator_init(&di, $self->pool, $self, SOLVID_META, key, 0, 0);
     if (dataiterator_step(&di))
@@ -407,9 +407,7 @@ typedef struct _Repo {} Repo;
       result = dataiterator_value( &di );
     }
 
-#if defined(SWIGPYTHON) || defined(SWIGPERL)/* needed for SWIG_Exception */
 fail:
-#endif
 #if defined(SWIGPYTHON)
     Py_INCREF(result);
 #endif

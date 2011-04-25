@@ -422,12 +422,12 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
       name = StringValuePtr( attrname );
 #endif
     if (!name)
-      SWIG_exception( SWIG_ValueError, "Attribute name missing" );
+      SWIG_exception_fail( SWIG_ValueError, "Attribute name missing" );
 
     /* key existing in pool ? */
     key = str2id( $self->pool, name, 0);
     if (key == ID_NULL)
-      SWIG_exception( SWIG_ValueError, "No such attribute name" );
+      SWIG_exception_fail( SWIG_ValueError, "No such attribute name" );
 
     s = xsolvable_solvable($self);
     dataiterator_init(&di, s->repo->pool, s->repo, $self->id, key, 0, 0);
@@ -436,9 +436,7 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
       result = dataiterator_value( &di );
     }
 
-#if defined(SWIGPYTHON) || defined(SWIGPERL)/* needed for SWIG_Exception */
 fail:
-#endif
 #if defined(SWIGPYTHON)
     Py_INCREF(result);
 #endif
