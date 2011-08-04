@@ -169,8 +169,8 @@ typedef struct _Repo {} Repo;
    *   repo.create_solvable("foo", "1.2-3", "x86_64")
    *
    */
-  XSolvable *create_solvable( const char *name, const char *evr, const char *arch = NULL )
-  { return xsolvable_create( $self, name, evr, arch ); }
+  XSolvable *create_solvable( const char *name, const char *evr, const char *arch = NULL, int add_selfprovides = 1 )
+  { return xsolvable_create( $self, name, evr, arch, add_selfprovides ); }
 
 #if defined(SWIGRUBY)
   %alias add "<<";

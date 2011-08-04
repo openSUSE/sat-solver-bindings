@@ -32,8 +32,8 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
    *  Solvable.new(repo, "test", "1.42-0", "ppc") -> Solvable
    *
    */
-  XSolvable( Repo *repo, const char *name, const char *evr, const char *arch = NULL )
-  { return xsolvable_create( repo, name, evr, arch ); }
+  XSolvable( Repo *repo, const char *name, const char *evr, const char *arch = NULL, int add_selfprovides = 1 )
+  { return xsolvable_create( repo, name, evr, arch, add_selfprovides ); }
   ~XSolvable()
   { return xsolvable_free( $self ); }
 

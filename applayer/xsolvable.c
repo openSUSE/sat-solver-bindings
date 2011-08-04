@@ -40,7 +40,7 @@ xsolvable_new( Pool *pool, Id id )
 
 
 XSolvable *
-xsolvable_create( Repo *repo, const char *name, const char *evr, const char *arch )
+xsolvable_create( Repo *repo, const char *name, const char *evr, const char *arch, int add_selfprovides )
 {
   Id sid = repo_add_solvable( repo );
   Pool *pool = repo->pool;
@@ -55,10 +55,11 @@ xsolvable_create( Repo *repo, const char *name, const char *evr, const char *arc
   s->evr = evrid;
   s->arch = archid;
 
-  /* add self-provides */
-  rel = rel2id( pool, nameid, evrid, REL_EQ, 1 );
-  s->provides = repo_addid_dep( repo, s->provides, rel, 0 );
-
+  if (add_selfprovides) {
+     /* add self-provides */
+    rel = rel2id( pool, nameid, evrid, REL_EQ, 1 );
+    s->provides = repo_addid_dep( repo, s->provides, rel, 0 );
+  }
   return xsolvable;
 }
 

@@ -41,7 +41,7 @@ XSolvable *xsolvable_new( Pool *pool, Id id );
 /*
  * Create a new XSolvable in pool from name, evr, arch
  */
-XSolvable *xsolvable_create( Repo *repo, const char *name, const char *evr, const char *arch );
+XSolvable *xsolvable_create( Repo *repo, const char *name, const char *evr, const char *arch, int add_selfprovides );
 
 /*
  * Free a previously created XSolvable
