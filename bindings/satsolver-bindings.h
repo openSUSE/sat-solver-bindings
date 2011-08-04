@@ -31,3 +31,6 @@
 #include "covenant.h"
 #include "ruleinfo.h"
 #include "step.h"
+
+/* satsolver tools layer includes */
+#include "common_write.h"

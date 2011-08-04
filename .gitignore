@@ -2,4 +2,4 @@
 build
 tests/solver/data.libzypp/*/*.result
 src/satversion.h
-
+bindings/ruby/tests/write.solv

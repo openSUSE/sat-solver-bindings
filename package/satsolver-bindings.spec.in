@@ -27,7 +27,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Group:          Development/Libraries/C and C++
 Summary:        Placeholder for subpackages of satsolver-bindings
 Prefix:         /usr
-BuildRequires:  libsatsolver-devel
+BuildRequires:  libsatsolver-devel > 0.17.1
 BuildRequires:  doxygen
 %if 0%{?mandriva_version}
 # force this version on mandriva

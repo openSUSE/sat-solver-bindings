@@ -46,9 +46,9 @@
 
 SET(SATSOLVER_BINDINGS_MAJOR "0")
 SET(SATSOLVER_BINDINGS_MINOR "43")
-SET(SATSOLVER_BINDINGS_PATCH "0")
+SET(SATSOLVER_BINDINGS_PATCH "1")
 
-# last released 0.16.0
+# last released 0.43.0
 
 # libsatsolver releases
 # SLES-11       : 0.13.x (0.13.4 - GA, 0.14.17 - SP1-GA)

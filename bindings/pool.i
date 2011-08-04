@@ -438,10 +438,10 @@ typedef struct _Pool {} Pool;
    *   pool.add_file( File.open( "foo.solv" ) ) -> Repo
    *
    */
-  Repo *add_file( FILE *fp )
+  Repo *add_file( FILE *READ )
   {
     Repo *repo = repo_create( $self, NULL );
-    repo_add_solv( repo, fp );
+    repo_add_solv( repo, READ );
     return repo;
   }
 

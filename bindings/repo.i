@@ -110,10 +110,25 @@ typedef struct _Repo {} Repo;
   { return $self->pool; }
 
   /*
+   * Write Repo to .+solv+ file
+   *
+   * If +basename+ is given, write languages, DU information and
+   * filelists to separate files (<basename>.{<lang>,DU,FL}.solv)
+   * If +attrname+ is given, write attributes to separate file (<attrname>)
+   */
+  void write( FILE *READ, const char *basename = NULL, const char *attrname = NULL )
+  {
+    FILE *stdout_save = stdout;
+    stdout = READ;
+    tool_write($self, basename, attrname);
+    stdout = stdout_save;
+  }
+
+  /*
    * Add opened .+solv+ file to Repo
    */
-  void add_file( FILE *fp )
-  { repo_add_solv( $self, fp ); }
+  void add_file( FILE *READ )
+  { repo_add_solv( $self, READ ); }
 
 #if defined(SWIGRUBY)
   /*

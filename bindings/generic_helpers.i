@@ -26,14 +26,14 @@
  * FILE * to Ruby
  * (copied from /usr/share/swig/ruby/file.i)
  */
-%typemap(in) FILE *READ_NOCHECK {
+%typemap(in) FILE *READ {
   OpenFile *fptr;
 
   Check_Type($input, T_FILE);
   GetOpenFile($input, fptr);
-  /*rb_io_check_writable(fptr);*/
+  rb_io_check_readable(fptr);
   $1 = GetReadFile(fptr);
-  rb_read_check($1)
+  rb_read_check($1);
 }
 
 /* boolean input argument */

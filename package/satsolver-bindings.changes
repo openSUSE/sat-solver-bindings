@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Aug  4 08:13:34 UTC 2011 - kkaempf@novell.com
+
+- add Repo#write to write a repo to a solv file
+
+-------------------------------------------------------------------
 Wed May 18 10:04:44 UTC 2011 - coolo@novell.com
 
 - do not use -Werror for release packages
