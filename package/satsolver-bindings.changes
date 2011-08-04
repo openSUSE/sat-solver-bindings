@@ -1,10 +1,20 @@
 -------------------------------------------------------------------
+Wed May 18 10:04:44 UTC 2011 - coolo@novell.com
+
+- do not use -Werror for release packages
+  
+-------------------------------------------------------------------
 Wed Apr 20 14:17:22 UTC 2011 - kkaempf@novell.com
 
 - 0.43.0
   Python improvements, more tests, proper typemaps for Problems,
   Solutions, Ruleinfo, etc.
 
+-------------------------------------------------------------------
+Thu Mar 31 12:48:11 UTC 2011 - coolo@novell.com
+
+- fix dependencies of devel package
+  
 -------------------------------------------------------------------
 Mon Feb 14 11:50:06 UTC 2011 - kkaempf@novell.com
 
