@@ -58,11 +58,14 @@ class SolvableTest < Test::Unit::TestCase
   def test_creation
     repo = @pool.create_repo( 'test' )
     assert repo
-    solv1 = repo.create_solvable( 'one', '1.0-0' )
+    solv1 = repo.create_solvable( 'one', '42:1.0-0' )
     assert solv1
     assert repo.size == 1
     assert solv1.name == 'one'
-    assert solv1.evr == "1.0-0"
+    assert solv1.evr == "42:1.0-0"
+    assert solv1.epoch == "42"
+    assert solv1.version == "1.0"
+    assert solv1.revision == "0"
     assert solv1.vendor.nil?
     solv2 = Satsolver::Solvable.new( repo, 'two', '2.0-0', 'noarch' )
     assert solv2

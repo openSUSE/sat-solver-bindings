@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Aug  4 13:42:17 UTC 2011 - kkaempf@novell.com
+
+- add Solvable.epoch, Solvable.version and Solvable.release
+- 0.44.1
+
+-------------------------------------------------------------------
 Thu Aug  4 08:13:34 UTC 2011 - kkaempf@novell.com
 
 - add Repo#write to write a repo to a solv file

@@ -76,12 +76,72 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   const char *arch()
   { return my_id2str( $self->pool, xsolvable_solvable($self)->arch ); }
   /*
+   * Get <epoch>:<version>-<revision>
+   *
    * call-seq:
    *  solvable.evr -> String
    *
    */
   const char *evr()
   { return my_id2str( $self->pool, xsolvable_solvable($self)->evr ); }
+  /*
+   * Get epoch
+   *
+   * call-seq:
+   *  solvable.epoch -> String
+   *
+   */
+  %newobject epoch;
+  const char *epoch()
+  {
+    const char *s = my_id2str( $self->pool, xsolvable_solvable($self)->evr );
+    const char *pos = strchr(s,':');
+    if ((pos == NULL) || (pos == s))
+      return NULL;
+    return strndup(s, --pos-s+1);
+  }
+
+  /*
+   * Get version
+   *
+   * call-seq:
+   *  solvable.version -> String
+   *
+   */
+  %newobject version;
+  const char *version()
+  {
+    const char *s = my_id2str( $self->pool, xsolvable_solvable($self)->evr );
+    const char *pos = strchr(s,':');
+    const char *end;
+    if (pos == NULL)
+      pos = s;
+    else
+      ++pos;
+    end = strchr(pos,'-');
+    if (end == NULL)
+      return strdup(pos);
+    --end;
+    return strndup(pos, end-pos+1);
+  }
+
+  /*
+   * Get revision
+   *
+   * call-seq:
+   *  solvable.revision -> String
+   *
+   */
+  %newobject revision;
+  const char *revision()
+  {
+    const char *s = my_id2str( $self->pool, xsolvable_solvable($self)->evr );
+    const char *pos = strchr(s,'-');
+    if (pos == NULL)
+      return pos;
+    return strdup(++pos);
+  }
+
   /*
    * call-seq:
    *  solvable.vendor -> String
