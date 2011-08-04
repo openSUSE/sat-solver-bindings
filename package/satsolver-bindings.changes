@@ -2,6 +2,7 @@
 Thu Aug  4 08:13:34 UTC 2011 - kkaempf@novell.com
 
 - add Repo#write to write a repo to a solv file
+- 0.44.0
 
 -------------------------------------------------------------------
 Wed May 18 10:04:44 UTC 2011 - coolo@novell.com
