@@ -397,6 +397,7 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
 #endif
 
 #if 0
+  /* FIXME */
   /*
    * :nodoc:
    */
