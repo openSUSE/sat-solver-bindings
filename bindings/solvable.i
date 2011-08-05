@@ -38,6 +38,8 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   { return xsolvable_free( $self ); }
 
   /*
+   * The Repo this Solvable belongs to
+   *
    * call-seq:
    *  solvable.repo -> Repo
    *
@@ -46,6 +48,8 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   { return xsolvable_solvable($self)->repo; }
 
   /*
+   * The internal Id of this Solvable
+   *
    * call-seq:
    *  solvable.id -> id
    *
@@ -54,6 +58,8 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   { return xsolvable_id($self); }
 
   /*
+   * The Pool this Solvable belongs to
+   *
    * call-seq:
    *  solvable.pool -> Pool
    *
@@ -62,13 +68,28 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   { return xsolvable_pool($self); }
 
   /*
+   * The name of the Solvable
+   *
    * call-seq:
    *  solvable.name -> String
    *
    */
   const char *name()
   { return my_id2str( $self->pool, xsolvable_solvable($self)->name ); }
+
   /*
+   * The internal Id of the name of the Solvable
+   *
+   * call-seq:
+   *  solvable.name_id -> Integer
+   *
+   */
+  int name_id()
+  { return xsolvable_solvable($self)->name; }
+
+  /*
+   * The architecture of the Solvable
+   *
    * call-seq:
    *  solvable.arch -> String
    *
@@ -143,6 +164,8 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   }
 
   /*
+   * The vendor of the Solvable
+   *
    * call-seq:
    *  solvable.vendor -> String
    *
@@ -150,13 +173,13 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
   const char *vendor()
   { return my_id2str( $self->pool, xsolvable_solvable($self)->vendor ); }
 #if defined(SWIGRUBY)
+  %rename( "vendor=" ) set_vendor( const char *vendor );
+#endif
   /*
    * call-seq:
    *  solvable.vendor = "Just me and myself"
    *
    */
-  %rename( "vendor=" ) set_vendor( const char *vendor );
-#endif
   void set_vendor(const char *vendor)
   { xsolvable_solvable($self)->vendor = str2id( $self->pool, vendor, 1 ); }
 
