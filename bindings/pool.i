@@ -180,12 +180,38 @@ typedef struct _Pool {} Pool;
   Relation *relation( int rel )
   { return relation_new( $self, (Id)rel ); }
 
-#if defined(SWIGRUBY)
-%{
   /*
-   * Defines the architecture of the pool.
-   
-   * Only Solvables with a compatible architecture will be considered.
+   * Convert internal Id to String
+   *
+   * call-seq:
+   *   pool.string(0) -> nil
+   *   pool.string(Integer) -> String
+   *
+   */
+  const char *string( int id )
+  { return my_id2str($self, id); }
+
+  /*
+   * Convert String to internal Id
+   * Optionally create Id for String
+   *
+   * call-seq:
+   *   pool.id(String) -> Integer
+   *   pool.id(String,1) -> Integer
+   *
+   */
+  int id( const char *s, int create = 0 )
+  { return pool_str2id($self, s, create); }
+
+#if defined(SWIGRUBY)
+
+  %rename( "arch=" ) set_arch( const char *arch );
+#endif
+  /*
+   * Define the architecture of the pool.
+   *
+   * Only Solvables with a compatible architecture will be considered
+   * during solving.
    *
    * Setting the architecture to "i686" is a good choice for most 32bit
    * systems, 64bit systems most probably need "x86_64"
@@ -199,13 +225,13 @@ typedef struct _Pool {} Pool;
    *  pool.arch = "i686"
    *
    */
-%}
-  %rename( "arch=" ) set_arch( const char *arch );
-#endif
   void set_arch( const char *arch )
   { pool_setarch( $self, arch ); }
 
 #if defined(SWIGRUBY)
+  %rename( "debug=" ) set_debug( int level );
+#endif
+  %feature("autodoc", "Makes the stuff noisy on stderr.") set_debug;
   /*
    * Increase verbosity on stderr
    *
@@ -213,9 +239,6 @@ typedef struct _Pool {} Pool;
    *  pool.debug = 1
    *
    */
-  %rename( "debug=" ) set_debug( int level );
-#endif
-  %feature("autodoc", "Makes the stuff noisy on stderr.") set_debug;
   void set_debug( int level )
   { pool_setdebuglevel( $self, level ); }
 
@@ -854,6 +877,10 @@ typedef struct _Pool {} Pool;
   }
 
 #if defined(SWIGRUBY)
+  %rename( "installable?" ) installable( XSolvable *s );
+  %typemap(out) int installable
+    "$result = ($1 != 0) ? Qtrue : Qfalse;";
+#endif
   /*
    * Find out if a solvable is installable (all its dependencies can
    * be satisfied)
@@ -862,10 +889,6 @@ typedef struct _Pool {} Pool;
    *  pool.installable?(Solvable) -> true
    *
    */
-  %rename( "installable?" ) installable( XSolvable *s );
-  %typemap(out) int installable
-    "$result = ($1 != 0) ? Qtrue : Qfalse;";
-#endif
   int installable( XSolvable *s )
   { return pool_installable( $self, pool_id2solvable( s->pool, s->id ) ); }
 
@@ -1011,6 +1034,8 @@ typedef struct _Pool {} Pool;
    */
 
 #if defined(SWIGRUBY)
+  %rename( "installed=" ) set_installed( Repo *repo );
+#endif
   /*
    * Set the repository representing the installed solvables
    *
@@ -1018,8 +1043,6 @@ typedef struct _Pool {} Pool;
    *  pool.installed = repository
    *
    */
-  %rename( "installed=" ) set_installed( Repo *repo );
-#endif
   void set_installed(Repo *installed = NULL)
   {
     pool_set_installed( $self, installed);

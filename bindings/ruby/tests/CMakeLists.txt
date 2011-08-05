@@ -24,3 +24,4 @@ ADD_TEST(bindings_ruby_reasons     ruby -C ${CMAKE_CURRENT_SOURCE_DIR} reasons.r
 ADD_TEST(bindings_ruby_problems    ruby -C ${CMAKE_CURRENT_SOURCE_DIR} problems.rb)
 ADD_TEST(bindings_ruby_solutions   ruby -C ${CMAKE_CURRENT_SOURCE_DIR} solutions.rb)
 ADD_TEST(bindings_ruby_write       ruby -C ${CMAKE_CURRENT_SOURCE_DIR} write.rb)
+ADD_TEST(bindings_ruby_id          ruby -C ${CMAKE_CURRENT_SOURCE_DIR} id.rb)
