@@ -92,6 +92,24 @@ poolnscallback(Pool *pool, void *data, Id name, Id value)
   return id;
 }
 
+ /*
+  * Count number of providers for given id
+  *
+  */
+  int providers_count( Pool *pool, Id id )
+  { int i = 0;
+    Id v;
+#if SATSOLVER_VERSION > 1300
+    Id *vp;
+    for (vp = pool_whatprovides_ptr(pool, id) ; (v = *vp++) != 0; )
+#else
+    Id vp;
+    FOR_PROVIDES(v, vp, d)
+#endif
+      ++i;
+    return i;
+  }
+
 
 %}
 
@@ -762,19 +780,21 @@ typedef struct _Pool {} Pool;
    *
    */
   int providers_count( const char *name )
-  { int i = 0;
-    Id v;
-    Id d = str2id( $self, name, 0);
-#if SATSOLVER_VERSION > 1300
-    Id *vp;
-    for (vp = pool_whatprovides_ptr($self, d) ; (v = *vp++) != 0; )
-#else
-    Id vp;
-    Pool *pool = $self;
-    FOR_PROVIDES(v, vp, d)
-#endif
-      ++i;
-    return i;
+  {
+    Id id = str2id( $self, name, 0);
+    return providers_count($self, id);
+  }
+
+  /*
+   * Count number of solvables providing id
+   *
+   * call-seq:
+   *  pool.providers_count(Integer) { |solvable| ... }
+   *
+   */
+  int providers_count( int id )
+  {
+    return providers_count($self, id);
   }
 
   /*
@@ -785,19 +805,7 @@ typedef struct _Pool {} Pool;
    *
    */
   int providers_count( Relation *rel )
-  { int i = 0;
-    Id v;
-#if SATSOLVER_VERSION > 1300
-    Id *vp;
-    for (vp = pool_whatprovides_ptr($self, rel->id) ; (v = *vp++) != 0; )
-#else
-    Id vp;
-    Pool *pool = $self;
-    FOR_PROVIDES(v, vp, rel->id)
-#endif
-      ++i;
-    return i;
-  }
+  { return providers_count($self, rel->id); }
 
   /*
    * Return n'th provider providing _name_
