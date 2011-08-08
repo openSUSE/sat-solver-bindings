@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Aug  8 17:29:41 UTC 2011 - kkaempf@novell.com
+
+- expose internal string id to enable fast-path of api
+- 0.44.2
+
+-------------------------------------------------------------------
 Thu Aug  4 13:42:17 UTC 2011 - kkaempf@novell.com
 
 - add Solvable.epoch, Solvable.version and Solvable.release
