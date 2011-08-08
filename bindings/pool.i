@@ -219,7 +219,7 @@ typedef struct _Pool {} Pool;
    *
    */
   int id( const char *s, int create = 0 )
-  { return pool_str2id($self, s, create); }
+  { return str2id($self, s, create); }
 
 #if defined(SWIGRUBY)
 
