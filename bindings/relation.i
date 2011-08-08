@@ -5,6 +5,17 @@
  *
  */
 
+%{
+  int name_id(Relation *r)
+  {
+    if (ISRELDEP( r->id )) {
+      Reldep *rd = GETRELDEP( r->pool, r->id );
+      return rd->name;
+    }
+    return r->id;
+  }
+%}
+
 %nodefault _Relation;
 %rename(Relation) _Relation;
 typedef struct _Relation {} Relation;
@@ -77,16 +88,15 @@ typedef struct _Relation {} Relation;
    */
   const char *name()
   {
-    Id nameid;
-    if (ISRELDEP( $self->id )) {
-      Reldep *rd = GETRELDEP( $self->pool, $self->id );
-      nameid = rd->name;
-    }
-    else {
-      nameid = $self->id;
-    }
+    int nameid = name_id($self);
     return my_id2str( $self->pool, nameid );
   }
+
+  /*
+   * The internal id of the name part of the Relation
+   */
+  int name_id()
+  { return name_id($self); }
 
   /*
    * The evr (edition-version.release) part of the Relation
