@@ -69,6 +69,9 @@
 /* BINDING CODE                                                */
 /*=============================================================*/
 
+%constant int BINDINGS_VERSION = (SATSOLVER_BINDINGS_MAJOR * 10000 + SATSOLVER_BINDINGS_MINOR * 100 + SATSOLVER_BINDINGS_PATCH);
+%constant int LIBRARY_VERSION = SATSOLVER_VERSION;
+
 %include exception.i
 
 %include "generic_helpers.i"

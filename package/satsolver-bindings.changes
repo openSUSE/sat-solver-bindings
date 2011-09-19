@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Mon Sep 19 10:23:05 UTC 2011 - kkaempf@suse.com
+
+- Expose version of libsatsolver as Satsolver::LIBRARY_VERSION
+  and version of bindings as Satsolver::BINDINGS_VERSION
+- 0.44.3
+
+-------------------------------------------------------------------
 Mon Aug  8 17:29:41 UTC 2011 - kkaempf@novell.com
 
 - expose internal string id to enable fast-path of api
