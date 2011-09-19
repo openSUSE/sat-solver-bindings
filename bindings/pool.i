@@ -23,6 +23,12 @@
  *  (aka 'attribute' files, referenced from within the main .solv file)
  */
 
+#ifndef FOR_REPOS
+#define FOR_REPOS(idx, r)						\
+  for (idx = 0; idx < pool->nrepos; idx++)				\
+    if ((r = pool->repos[idx]) != 0)
+#endif
+
 #if SATSOLVER_VERSION < 1400
 static FILE *
 poolloadcallback( Pool *pool, Repodata *data, void *vdata )
@@ -590,17 +596,8 @@ typedef struct _Pool {} Pool;
     Pool *pool = $self;
     Repo *r;
     int i;
-#if SATSOLVER_VERSION < 1600
-    struct _Repo **repos;
-    for (i = 0; i < pool->nrepos; ++i) {
-      r = *repos++;
-#else
     FOR_REPOS(i, r)
-#endif    
       rb_yield(SWIG_NewPointerObj((void*)r, SWIGTYPE_p__Repo, 0));
-#if SATSOLVER_VERSION < 1600
-    }
-#endif
   }
 #endif
 #if defined(SWIGPYTHON)
@@ -619,16 +616,8 @@ typedef struct _Pool {} Pool;
     int i;
     PtrIndex pi;
     NewPtrIndex(pi,const Repo **,$self->nrepos);
-#if SATSOLVER_VERSION < 1600
-    struct _Repo **repos;
-    for (i = 0; i < pool->nrepos; ++i) {
-      r = *repos++;
-#else
     FOR_REPOS(i, r)
-    {
-#endif
       AddPtrIndex((&pi),const Repo **,r);
-    }
     ReturnPtrIndex(pi,const Repo **);
   }
 #endif
@@ -646,18 +635,9 @@ typedef struct _Pool {} Pool;
     Pool *pool = $self;
     Repo *r;
     int i;
-#if SATSOLVER_VERSION < 1600
-    struct _Repo **repos;
-    for (i = 0; i < pool->nrepos; ++i) {
-      r = *repos++;
-#else
     FOR_REPOS(i, r)
-#endif
-      if (!strcmp(r->name, name))
+      if (r->name && !strcmp(r->name, name))
         return r;
-#if SATSOLVER_VERSION < 1600
-    }
-#endif
     return NULL;
   }
 
