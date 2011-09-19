@@ -32,5 +32,7 @@
 #include "ruleinfo.h"
 #include "step.h"
 
+#if SATSOLVER_VERSION > 1701
 /* satsolver tools layer includes */
 #include "common_write.h"
+#endif

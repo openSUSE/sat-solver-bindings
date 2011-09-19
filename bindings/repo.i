@@ -120,7 +120,10 @@ typedef struct _Repo {} Repo;
   {
     FILE *stdout_save = stdout;
     stdout = READ;
+#if SATSOLVER_VERSION > 1701
+#else
     tool_write($self, basename, attrname);
+#endif
     stdout = stdout_save;
   }
 

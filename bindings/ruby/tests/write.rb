@@ -18,17 +18,19 @@ class WriteTest < Test::Unit::TestCase
     rel = Satsolver::Relation.new( pool1, "two", Satsolver::REL_GE, "2.0-0" )
     solv1.requires << rel
     
-    # write to 'write.solv'
-    File.open("write.solv", "w+") do |f|
-      repo1.write(f)
-    end
+    if Satsolver::LIBRARY_VERSION > 1701
+      # write to 'write.solv'
+      File.open("write.solv", "w+") do |f|
+	repo1.write(f)
+      end
     
-    # read to separate pool
-    pool2 = Satsolver::Pool.new
-    pool2.arch = "i686"
-    repo2 = pool2.add_solv "write.solv"
-    assert_equal pool1.size, pool2.size
-    assert_equal repo1.size, repo2.size    
+      # read to separate pool
+      pool2 = Satsolver::Pool.new
+      pool2.arch = "i686"
+      repo2 = pool2.add_solv "write.solv"
+      assert_equal pool1.size, pool2.size
+      assert_equal repo1.size, repo2.size    
+    end
   end
   
 end

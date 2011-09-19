@@ -62,7 +62,9 @@
 
 #include "satsolver-bindings.h"
 #include "generic_helpers.h"
-
+#if HAVE_SATVERSION_H
+#include <satversion.h>
+#endif
 %}
 
 /*=============================================================*/

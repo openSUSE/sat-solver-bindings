@@ -21,6 +21,9 @@ IF(EXISTS /usr/include/satsolver/satversion.h)
 #  MESSAGE(STATUS "Grep returned '${SATSOLVER_VERSION_STRING}'")
   STRING(REGEX REPLACE ".*([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1" SATSOLVER_VERSION "${SATSOLVER_VERSION_STRING}")
   MESSAGE(STATUS "Version '${SATSOLVER_VERSION}'")
+  SET(HAVE_SATVERSION_H 1)
+ELSE(EXISTS /usr/include/satsolver/satversion.h)
+  SET(HAVE_SATVERSION_H 0)
 ENDIF(EXISTS /usr/include/satsolver/satversion.h)
 
 # Look for libsatsolver-devel
