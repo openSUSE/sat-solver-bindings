@@ -109,6 +109,7 @@ typedef struct _Repo {} Repo;
   Pool *pool()
   { return $self->pool; }
 
+#if SATSOLVER_VERSION > 1701
   /*
    * Write Repo to .+solv+ file
    *
@@ -120,12 +121,10 @@ typedef struct _Repo {} Repo;
   {
     FILE *stdout_save = stdout;
     stdout = READ;
-#if SATSOLVER_VERSION > 1701
-#else
     tool_write($self, basename, attrname);
-#endif
     stdout = stdout_save;
   }
+#endif
 
   /*
    * Add opened .+solv+ file to Repo
