@@ -21,7 +21,7 @@ Name:           satsolver-bindings
 Version:        @VERSION@
 Release:        1
 License:        BSD3c
-Url:            git://gitorious.org/opensuse/sat-solver-bindings.git
+Url:            http://github.com/openSUSE/sat-solver-bindings
 Source:         satsolver-bindings-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Group:          Development/Libraries/C and C++
@@ -196,7 +196,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 # we want to leave the .a file untouched
 export NO_BRP_STRIP_DEBUG=true
 %if 0%{?suse_version} > 1020
-%fdupes -s bindings/ruby/html
+%fdupes -s build/bindings/ruby/html
 %endif
 cd ..
 
@@ -246,7 +246,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %endif
 # rdoc-swig doesn't work with Ruby 1.8.1 on RHEL4
 %if 0%{?rhel_version} == 0 || 0%{?rhel_version} >= 500
-%doc bindings/ruby/html
+%doc build/bindings/ruby/html
 %endif
 
 %files -n python-satsolver
