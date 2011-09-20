@@ -3,6 +3,7 @@ Mon Sep 19 10:23:05 UTC 2011 - kkaempf@suse.com
 
 - Expose version of libsatsolver as Satsolver::LIBRARY_VERSION
   and version of bindings as Satsolver::BINDINGS_VERSION
+- Add Repo::write in Ruby (for libsatsolver 0.17.2 and later)
 - 0.44.3
 
 -------------------------------------------------------------------
