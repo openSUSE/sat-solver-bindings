@@ -28,8 +28,10 @@
 
 import unittest
 
+import os 
+cwd = os.path.abspath(os.path.dirname(__file__)) 
 import sys
-sys.path.insert(0, '../../../build/bindings/python')
+sys.path.insert(0, cwd + '/../../../build/bindings/python')
 
 import satsolver
 
