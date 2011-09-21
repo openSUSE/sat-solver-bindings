@@ -187,7 +187,7 @@ make %{?jobs:-j %jobs}
 # make doc_forced
 
 %if 0%{?run_testsuite}
-  make test
+CTEST_OUTPUT_ON_FAILURE=1 make test
 %endif
 
 %install
