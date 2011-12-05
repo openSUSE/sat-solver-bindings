@@ -15,7 +15,11 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 
+%ifnarch ppc ppc64
 %define run_testsuite 1
+%else
+%define run_testsuite 0
+%endif
 
 Name:           satsolver-bindings
 Version:        @VERSION@
