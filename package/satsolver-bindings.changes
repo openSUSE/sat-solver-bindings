@@ -1,9 +1,4 @@
 -------------------------------------------------------------------
-Mon Jan  9 10:48:45 CET 2012 - dmueller@suse.de
-
-- make the testsuite build on all architectures (bnc#733027)
-
--------------------------------------------------------------------
 Mon Nov 28 11:41:33 UTC 2011 - dvaleev@suse.com
 
 - disable tests on ppc ppc64 (bnc#733027)
@@ -38,7 +33,7 @@ Thu Aug  4 08:13:34 UTC 2011 - kkaempf@novell.com
 Wed May 18 10:04:44 UTC 2011 - coolo@novell.com
 
 - do not use -Werror for release packages
-
+  
 -------------------------------------------------------------------
 Wed Apr 20 14:17:22 UTC 2011 - kkaempf@novell.com
 
@@ -50,7 +45,7 @@ Wed Apr 20 14:17:22 UTC 2011 - kkaempf@novell.com
 Thu Mar 31 12:48:11 UTC 2011 - coolo@novell.com
 
 - fix dependencies of devel package
-
+  
 -------------------------------------------------------------------
 Mon Feb 14 11:50:06 UTC 2011 - kkaempf@novell.com
 
@@ -73,7 +68,7 @@ Mon Sep  6 13:50:02 UTC 2010 - dmacvicar@novell.com
 -------------------------------------------------------------------
 Mon Sep  6 12:38:21 UTC 2010 - dmacvicar@novell.com
 
-- SLE10SP3 also has vendor_ruby
+- SLE10SP3 also has vendor_ruby 
 
 -------------------------------------------------------------------
 Wed Aug 18 14:11:08 UTC 2010 - kkaempf@novell.com
