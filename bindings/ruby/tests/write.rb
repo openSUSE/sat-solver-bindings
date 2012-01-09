@@ -18,7 +18,7 @@ class WriteTest < Test::Unit::TestCase
     rel = Satsolver::Relation.new( pool1, "two", Satsolver::REL_GE, "2.0-0" )
     solv1.requires << rel
     
-    if Satsolver::LIBRARY_VERSION > 1701 && repo1.respond_to?(:write)
+    if Satsolver::LIBRARY_VERSION > 1701
       # write to 'write.solv'
       File.open("write.solv", "w+") do |f|
 	repo1.write(f)
