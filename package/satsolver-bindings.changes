@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Jan  9 10:48:45 CET 2012 - dmueller@suse.de
+
+- make the testsuite build on all architectures (bnc#733027)
+
+-------------------------------------------------------------------
 Mon Nov 28 11:41:33 UTC 2011 - dvaleev@suse.com
 
 - disable tests on ppc ppc64 (bnc#733027)
