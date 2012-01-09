@@ -11,6 +11,8 @@ my @packs = qw(vim postfix sendmail);
 # Create Pool and Repository 
 my $pool = new satsolver::Pool;
 my $arch = qx (uname -m); chomp $arch;
+# demo data is only i586 and x86_64, other archs would fail
+$arch = "i586" if ($arch ne "x86_64");
 $pool -> set_arch ($arch);
 my $repo = $pool -> create_repo('repo');
 
