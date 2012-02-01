@@ -14,6 +14,7 @@ ADD_TEST(bindings_ruby_relation	   ruby -C ${CMAKE_CURRENT_SOURCE_DIR} relation.
 ADD_TEST(bindings_ruby_repodata	   ruby -C ${CMAKE_CURRENT_SOURCE_DIR} repodata.rb)
 
 ADD_TEST(bindings_ruby_providers   ruby -C ${CMAKE_CURRENT_SOURCE_DIR} providers.rb)
+ADD_TEST(bindings_ruby_fileprovides ruby -C ${CMAKE_CURRENT_SOURCE_DIR} fileprovides.rb)
 
 ADD_TEST(bindings_ruby_request     ruby -C ${CMAKE_CURRENT_SOURCE_DIR} request.rb)
 ADD_TEST(bindings_ruby_covenants   ruby -C ${CMAKE_CURRENT_SOURCE_DIR} covenants.rb)
