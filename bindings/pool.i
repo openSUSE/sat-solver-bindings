@@ -421,7 +421,8 @@ typedef struct _Pool {} Pool;
    *
    */
   void prepare()
-  { pool_createwhatprovides( $self ); }
+  { pool_addfileprovides( $self );
+    pool_createwhatprovides( $self ); }
 
   /*
    * Get system solvable
