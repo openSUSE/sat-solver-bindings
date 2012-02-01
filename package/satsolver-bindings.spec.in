@@ -1,7 +1,7 @@
 #
 # spec file for package satsolver-bindings
 #
-# Copyright (c) 2011 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2012 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -14,6 +14,7 @@
 
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
+
 
 %define run_testsuite 1
 
@@ -34,7 +35,7 @@ BuildRequires:  doxygen
 BuildRequires:  libneon0.26-devel
 %endif
 %if 0%{?fedora_version}
-BuildRequires:  perl-devel db4-devel
+BuildRequires:  db4-devel perl-devel
 %endif
 %if 0%{?fedora_version} || 0%{?rhel_version} || 0%{?centos_version}
 BuildRequires:  ruby
@@ -57,7 +58,7 @@ BuildRequires:  fdupes
 %else
 BuildRequires:  expat-devel
 %endif
-BuildRequires:  cmake rpm-devel gcc-c++ ruby-devel swig perl python-devel
+BuildRequires:  cmake gcc-c++ perl python-devel rpm-devel ruby-devel swig
 BuildRequires:  zlib-devel
 # the testsuite uses the check framework
 BuildRequires:  check-devel
@@ -78,6 +79,7 @@ satsolver-bindings.
 License:        BSD3c
 Summary:        Sat-solver application layer
 Group:          Development/Libraries/C and C++
+
 %description -n libsatsolverapp0
 An application layer to make using satsolver easier for developers.
 
