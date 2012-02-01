@@ -1,4 +1,4 @@
-%w(../../../build/bindings/ruby).each do |path|
+%w(../../../build/bindings/ruby ..).each do |path|
   $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), path)))
 end
 require 'pathname'
