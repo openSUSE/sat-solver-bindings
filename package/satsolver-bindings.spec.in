@@ -20,7 +20,7 @@
 Name:           satsolver-bindings
 Version:        @VERSION@
 Release:        1
-License:        BSD3c
+License:        BSD-3-Clause
 Url:            http://github.com/openSUSE/sat-solver-bindings
 Source:         satsolver-bindings-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -75,7 +75,7 @@ satsolver-bindings.
 
 
 %package -n libsatsolverapp0
-License:        BSD3c
+License:        BSD-3-Clause
 Summary:        Sat-solver application layer
 Group:          Development/Libraries/C and C++
 %description -n libsatsolverapp0
@@ -86,7 +86,7 @@ Authors:
     Klaus Kaempf <kkaempf@suse.de>
 
 %package -n libsatsolverapp0-devel
-License:        BSD3c
+License:        BSD-3-Clause
 Summary:        Sat-solver application layer
 Group:          Development/Libraries/C and C++
 Requires:       libsatsolverapp0 = %version
@@ -99,7 +99,7 @@ Authors:
     Klaus Kaempf <kkaempf@suse.de>
 
 %package -n ruby-satsolver
-License:        BSD3c
+License:        BSD-3-Clause
 Summary:        Ruby bindings for sat solver
 Group:          Development/Languages/Ruby
 
@@ -112,7 +112,7 @@ Authors:
     Duncan Mac-Vicar P. <dmacvicar@suse.de>
 
 %package -n python-satsolver
-License:        BSD3c
+License:        BSD-3-Clause
 %py_requires
 Summary:        Python bindings for sat solver
 Group:          Development/Languages/Python
@@ -126,7 +126,7 @@ Authors:
     Duncan Mac-Vicar P. <dmacvicar@suse.de>
 
 %package -n perl-satsolver
-License:        BSD3c
+License:        BSD-3-Clause
 Requires:       perl = %{perl_version}
 Summary:        Perl bindings for sat solver
 Group:          Development/Languages/Perl
@@ -141,7 +141,7 @@ Authors:
     Bernhard Wiedemann <bwiedemann@suse.de>
 
 %package -n satsolver-bindings-devel
-License:        BSD3c
+License:        BSD-3-Clause
 Requires:       swig %{name}-devel
 Summary:        Swig input files for satsolver bindings
 Group:          Development/Libraries/Other
