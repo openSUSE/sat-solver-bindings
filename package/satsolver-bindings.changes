@@ -11,6 +11,11 @@ Mon Nov 28 11:41:33 UTC 2011 - dvaleev@suse.com
 - 0.44.4
 
 -------------------------------------------------------------------
+Tue Nov  8 13:54:00 UTC 2011 - kkaempf@suse.com
+
+- fix linking order of satsolverext/satsolver (bnc#714706)
+
+-------------------------------------------------------------------
 Mon Sep 19 10:23:05 UTC 2011 - kkaempf@suse.com
 
 - Expose version of libsatsolver as Satsolver::LIBRARY_VERSION
