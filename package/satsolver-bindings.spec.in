@@ -35,12 +35,13 @@ BuildRequires:  doxygen
 BuildRequires:  libneon0.26-devel
 %endif
 %if 0%{?fedora_version}
-BuildRequires:  db4-devel perl-devel
+BuildRequires:  db4-devel
+BuildRequires:  perl-devel
 %endif
 %if 0%{?fedora_version} || 0%{?rhel_version} || 0%{?centos_version}
 BuildRequires:  ruby
 %if 0%{?fedora_version} || 0%{?rhel_version} > 500 || 0%{?centos_version} > 500
-BuildRequires: ruby-rdoc
+BuildRequires:  ruby-rdoc
 %endif
 %endif
 %if 0%{?suse_version}
@@ -58,7 +59,13 @@ BuildRequires:  fdupes
 %else
 BuildRequires:  expat-devel
 %endif
-BuildRequires:  cmake gcc-c++ perl python-devel rpm-devel ruby-devel swig
+BuildRequires:  cmake
+BuildRequires:  gcc-c++
+BuildRequires:  perl
+BuildRequires:  python-devel
+BuildRequires:  rpm-devel
+BuildRequires:  ruby-devel
+BuildRequires:  swig
 BuildRequires:  zlib-devel
 # the testsuite uses the check framework
 BuildRequires:  check-devel
@@ -76,7 +83,6 @@ satsolver-bindings.
 
 
 %package -n libsatsolverapp0
-License:        BSD-3-Clause
 Summary:        Sat-solver application layer
 Group:          Development/Libraries/C and C++
 
@@ -88,7 +94,6 @@ Authors:
     Klaus Kaempf <kkaempf@suse.de>
 
 %package -n libsatsolverapp0-devel
-License:        BSD-3-Clause
 Summary:        Sat-solver application layer
 Group:          Development/Libraries/C and C++
 Requires:       libsatsolverapp0 = %version
@@ -101,7 +106,6 @@ Authors:
     Klaus Kaempf <kkaempf@suse.de>
 
 %package -n ruby-satsolver
-License:        BSD-3-Clause
 Summary:        Ruby bindings for sat solver
 Group:          Development/Languages/Ruby
 
@@ -114,7 +118,6 @@ Authors:
     Duncan Mac-Vicar P. <dmacvicar@suse.de>
 
 %package -n python-satsolver
-License:        BSD-3-Clause
 %py_requires
 Summary:        Python bindings for sat solver
 Group:          Development/Languages/Python
@@ -128,7 +131,6 @@ Authors:
     Duncan Mac-Vicar P. <dmacvicar@suse.de>
 
 %package -n perl-satsolver
-License:        BSD-3-Clause
 Requires:       perl = %{perl_version}
 Summary:        Perl bindings for sat solver
 Group:          Development/Languages/Perl
@@ -143,7 +145,6 @@ Authors:
     Bernhard Wiedemann <bwiedemann@suse.de>
 
 %package -n satsolver-bindings-devel
-License:        BSD-3-Clause
 Requires:       swig %{name}-devel
 Summary:        Swig input files for satsolver bindings
 Group:          Development/Libraries/Other
