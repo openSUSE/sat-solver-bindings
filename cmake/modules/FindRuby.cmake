@@ -21,11 +21,14 @@ endif (RUBY_LIBRARY AND RUBY_INCLUDE_PATH)
 #   RUBY_LIBDIR=`$RUBY -r rbconfig -e 'printf("%s",RbConfig::CONFIG@<:@"libdir"@:>@)'`
 #   RUBY_LIBRUBYARG=`$RUBY -r rbconfig -e 'printf("%s",RbConfig::CONFIG@<:@"LIBRUBYARG_SHARED"@:>@)'`
 
-FIND_PROGRAM(RUBY_EXECUTABLE NAMES ruby ruby1.8 ruby18 )
+FIND_PROGRAM(RUBY_EXECUTABLE NAMES ruby ruby19 ruby1.8 ruby18 )
 
 EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['archdir']"
    OUTPUT_VARIABLE RUBY_ARCH_DIR)
 
+EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['rubyhdrdir']"
+   OUTPUT_VARIABLE RUBY_HDR_DIR ERROR_QUIET)
+   
 EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['libdir']"
    OUTPUT_VARIABLE RUBY_POSSIBLE_LIB_PATH)
 
@@ -39,19 +42,13 @@ EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFI
 EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['sitelibdir']"
    OUTPUT_VARIABLE RUBY_SITELIB_DIR)
 
+EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['vendorarchdir']"
+  OUTPUT_VARIABLE RUBY_VENDORARCH_DIR ERROR_QUIET)
 
-# vendor_ruby
-EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r vendor-specific -e "print '-rvendor-specific'"
-   OUTPUT_VARIABLE RUBY_VENDOR_ARG)
-
-IF(RUBY_VENDOR_ARG)
-    EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['vendorarchdir']"
-       OUTPUT_VARIABLE RUBY_VENDORARCH_DIR)
-
+IF(RUBY_VENDORARCH_DIR)
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['vendorlibdir']"
        OUTPUT_VARIABLE RUBY_VENDORLIB_DIR)
-ELSE(RUBY_VENDOR_ARG)
-    MESSAGE(STATUS "'vendor-specific' not found, using 'site-specific'")
+ELSE(RUBY_VENDORARCH_DIR)
 
     # fall back to site*dir
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['sitearchdir']"
@@ -59,7 +56,7 @@ ELSE(RUBY_VENDOR_ARG)
 
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['sitelibdir']"
        OUTPUT_VARIABLE RUBY_VENDORLIB_DIR)
-ENDIF(RUBY_VENDOR_ARG)
+ENDIF(RUBY_VENDORARCH_DIR)
 
 # this is not needed if you use "print" inside the ruby statements
 # remove the new lines from the output by replacing them with empty strings
@@ -71,8 +68,9 @@ ENDIF(RUBY_VENDOR_ARG)
 FIND_PATH(RUBY_INCLUDE_PATH
    NAMES ruby.h
   PATHS
+   ${RUBY_HDR_DIR}
    ${RUBY_ARCH_DIR}
-  /usr/lib/ruby/1.8/i586-linux-gnu/ )
+   /usr/lib/ruby/1.8/i586-linux-gnu/ )
 
 FIND_LIBRARY(RUBY_LIBRARY
   NAMES ruby ruby1.8
