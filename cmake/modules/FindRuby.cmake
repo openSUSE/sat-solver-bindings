@@ -51,6 +51,8 @@ IF(RUBY_VENDOR_ARG)
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['vendorlibdir']"
        OUTPUT_VARIABLE RUBY_VENDORLIB_DIR)
 ELSE(RUBY_VENDOR_ARG)
+    MESSAGE(STATUS "'vendor-specific' not found, using 'site-specific'")
+
     # fall back to site*dir
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['sitearchdir']"
        OUTPUT_VARIABLE RUBY_VENDORARCH_DIR)
