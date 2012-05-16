@@ -45,6 +45,7 @@ BuildRequires:  ruby-rdoc
 %endif
 %endif
 %if 0%{?suse_version}
+BuildRequires:  pkg-config
 %if 0%{?suse_version} < 1030
 BuildRequires:  expat
 %else
