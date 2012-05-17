@@ -68,7 +68,11 @@ typedef struct {
 #define Swig_Type_Number rb_cNumeric
 #define Swig_Type_Directory rb_cDir
 #include <ruby.h>
+#if HAVE_RUBY_IO_H
+#include <ruby/io.h> /* Ruby 1.9 style */
+#else
 #include <rubyio.h>
+#endif
 #endif
 
 #if defined(SWIGPERL)
