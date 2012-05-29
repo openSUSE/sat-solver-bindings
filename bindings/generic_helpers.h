@@ -11,7 +11,7 @@ generic_xsolvables_iterate_callback( const XSolvable *xs, void *user_data )
 {
 #if defined(SWIGRUBY)
   /* FIXME: how to pass 'break' back to the caller ? */
-  rb_yield( SWIG_NewPointerObj((void*)xs, SWIGTYPE_p__Solvable, 0) );
+  rb_yield( SWIG_NewPointerObj((void*)xs, SWIGTYPE_p__xsolvable, 0) );
 #else
   AddPtrIndex(((PtrIndex *)user_data),const XSolvable **,xs);
 #endif
