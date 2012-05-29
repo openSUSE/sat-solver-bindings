@@ -45,10 +45,10 @@
 #
 
 SET(SATSOLVER_BINDINGS_MAJOR "0")
-SET(SATSOLVER_BINDINGS_MINOR "44")
-SET(SATSOLVER_BINDINGS_PATCH "6")
+SET(SATSOLVER_BINDINGS_MINOR "45")
+SET(SATSOLVER_BINDINGS_PATCH "0")
 
-# last released 0.44.6
+# last released 0.45.0
 
 # libsatsolver releases
 # SLES-11       : 0.13.x (0.13.4 - GA, 0.14.17 - SP1-GA)
@@ -59,3 +59,4 @@ SET(SATSOLVER_BINDINGS_PATCH "6")
 # openSUSE 11.3 : 0.15.x
 # openSUSE 11.4 : 0.16.x
 # openSUSE 12.1 : 0.17.x
+# openSUSE 12.2 : 0.17.x (?)
