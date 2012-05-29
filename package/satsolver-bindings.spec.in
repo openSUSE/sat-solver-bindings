@@ -74,8 +74,8 @@ BuildRequires:  check-devel
 # add macros if not already defined
 %{!?py_sitedir: %define py_sitedir %(%__python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %{!?py_requires: %define py_requires Requires: python}
-%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e 'puts Config::CONFIG["sitelibdir"] ')}
-%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
+%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitelibdir"] ')}
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitearchdir"] ')}
 
 %description
 This is not a package but a .spec placeholder fo subpackages of
@@ -199,7 +199,7 @@ cd build
 make DESTDIR=$RPM_BUILD_ROOT install
 # we want to leave the .a file untouched
 export NO_BRP_STRIP_DEBUG=true
-%if 0%{?suse_version} > 1020
+%if 0%{?suse_version} > 1020 && 0%{?suse_version} < 1220
 %fdupes -s build/bindings/ruby/html
 %endif
 cd ..
@@ -250,7 +250,9 @@ rm -rf "$RPM_BUILD_ROOT"
 %endif
 # rdoc-swig doesn't work with Ruby 1.8.1 on RHEL4
 %if 0%{?rhel_version} == 0 || 0%{?rhel_version} >= 500
+%if 0%{?suse_version} == 0 || 0%{?suse_version} < 1220
 %doc build/bindings/ruby/html
+%endif
 %endif
 
 %files -n python-satsolver

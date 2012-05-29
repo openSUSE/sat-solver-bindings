@@ -5,6 +5,8 @@
 ENABLE_TESTING()
 ADD_SUBDIRECTORY(tests)
 
+EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['ruby_version']" OUTPUT_VARIABLE RUBY_VERSION)
+
 # SWIG_OUPUT is per-target
 
 SET( SWIG_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/satsolver_ruby.c" )
@@ -56,6 +58,7 @@ INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/satsolver DESTINATION ${RUBY_VENDO
    PATTERN "*~" EXCLUDE)
 		
 # rdoc
+IF(RUBY_VERSION VERSION_LESS "1.9.1")
 SET(rdoc_dir "${CMAKE_CURRENT_BINARY_DIR}/html")
 ADD_CUSTOM_COMMAND (
    OUTPUT ${rdoc_dir}
@@ -68,6 +71,7 @@ ADD_CUSTOM_COMMAND (
 )
 ADD_CUSTOM_TARGET(ruby_rdoc ALL DEPENDS "${rdoc_dir}")
 ADD_DEPENDENCIES(ruby_rdoc satsolver_ruby)
+ENDIF(RUBY_VERSION VERSION_LESS "1.9.1")
 
 #
 # Leave this to %doc in the .spec file
