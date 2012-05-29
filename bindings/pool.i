@@ -506,9 +506,7 @@ typedef struct _Pool {} Pool;
   Repo *add_solv( VALUE name )
   {
     const char *fname;
-    /* try string conversion if not already a string */
-    name = StringValue( name );
-    fname = StringValuePtr( name );
+    fname = target_charptr( name );
 #else
   Repo *add_solv( const char *fname )
   {

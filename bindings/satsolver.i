@@ -65,6 +65,132 @@
 #if HAVE_SATVERSION_H
 #include <satversion.h>
 #endif
+
+/*
+ * type definitions to keep the C code generic
+ */
+ 
+#if defined(SWIGPYTHON)
+#define Target_Null_p(x) (x == Py_None)
+#define Target_INCREF(x) Py_INCREF(x)
+#define Target_DECREF(x) Py_DECREF(x)
+#define Target_True Py_True
+#define Target_False Py_False
+#define Target_Null Py_None
+#define Target_Type PyObject*
+#define Target_Bool(x) PyBool_FromLong(x)
+#define Target_Char16(x) PyInt_FromLong(x)
+#define Target_Int(x) PyInt_FromLong(x)
+#define Target_String(x) PyString_FromString(x)
+#define Target_Real(x) Py_None
+#define Target_Array() PyList_New(0)
+#define Target_SizedArray(len) PyList_New(len)
+#define Target_ListSet(x,n,y) PyList_SetItem(x,n,y)
+#define Target_Append(x,y) PyList_Append(x,y)
+#define Target_DateTime(x) Py_None
+#include <Python.h>
+#define TARGET_THREAD_BEGIN_BLOCK SWIG_PYTHON_THREAD_BEGIN_BLOCK
+#define TARGET_THREAD_END_BLOCK SWIG_PYTHON_THREAD_END_BLOCK
+#define TARGET_THREAD_BEGIN_ALLOW SWIG_PYTHON_THREAD_BEGIN_ALLOW
+#define TARGET_THREAD_END_ALLOW SWIG_PYTHON_THREAD_END_ALLOW
+#endif
+
+#if defined(SWIGRUBY)
+#define Target_Null_p(x) NIL_P(x)
+#define Target_INCREF(x) 
+#define Target_DECREF(x) 
+#define Target_True Qtrue
+#define Target_False Qfalse
+#define Target_Null Qnil
+#define Target_Type VALUE
+#define Target_Bool(x) ((x)?Qtrue:Qfalse)
+#define Target_Char16(x) INT2FIX(x)
+#define Target_Int(x) INT2FIX(x)
+#define Target_String(x) rb_str_new2(x)
+#define Target_Real(x) rb_float_new(x)
+#define Target_Array() rb_ary_new()
+#define Target_SizedArray(len) rb_ary_new2(len)
+#define Target_ListSet(x,n,y) rb_ary_store(x,n,y)
+#define Target_Append(x,y) rb_ary_push(x,y)
+#define Target_DateTime(x) datetime_value(x)
+#define TARGET_THREAD_BEGIN_BLOCK do {} while(0)
+#define TARGET_THREAD_END_BLOCK do {} while(0)
+#define TARGET_THREAD_BEGIN_ALLOW do {} while(0)
+#define TARGET_THREAD_END_ALLOW do {} while(0)
+#include <ruby.h>
+#include <ruby.h>
+#if HAVE_RUBY_IO_H
+#include <ruby/io.h> /* Ruby 1.9 style */
+#else
+#include <rubyio.h>
+#endif
+#endif
+
+#if defined(SWIGPERL)
+#define TARGET_THREAD_BEGIN_BLOCK do {} while(0)
+#define TARGET_THREAD_END_BLOCK do {} while(0)
+#define TARGET_THREAD_BEGIN_ALLOW do {} while(0)
+#define TARGET_THREAD_END_ALLOW do {} while(0)
+
+SWIGINTERNINLINE SV *SWIG_From_long  SWIG_PERL_DECL_ARGS_1(long value);
+SWIGINTERNINLINE SV *SWIG_FromCharPtr(const char *cptr);
+SWIGINTERNINLINE SV *SWIG_From_double  SWIG_PERL_DECL_ARGS_1(double value);
+
+#define Target_Null_p(x) (x == NULL)
+#define Target_INCREF(x) 
+#define Target_DECREF(x) 
+#define Target_True (&PL_sv_yes)
+#define Target_False (&PL_sv_no)
+#define Target_Null NULL
+#define Target_Type SV *
+#define Target_Bool(x) (x)?Target_True:Target_False
+#define Target_Char16(x) SWIG_From_long(x)
+#define Target_Int(x) SWIG_From_long(x)
+#define Target_String(x) SWIG_FromCharPtr(x)
+#define Target_Real(x) SWIG_From_double(x)
+#define Target_Array() (SV *)newAV()
+#define Target_SizedArray(len) (SV *)newAV()
+#define Target_ListSet(x,n,y) av_store((AV *)(x),n,y)
+#define Target_Append(x,y) av_push(((AV *)(x)), y)
+#define Target_DateTime(x) NULL
+#include <perl.h>
+#include <EXTERN.h>
+#endif
+
+/*
+ * target_charptr
+ * Convert target type to const char *
+ */
+
+static const char *
+target_charptr(Target_Type target)
+{
+  const char *str;
+#if defined (SWIGRUBY)
+  if (SYMBOL_P(target)) {
+    str = rb_id2name(SYM2ID(target));
+  }
+  else if (TYPE(target) == T_STRING) {
+    str = StringValuePtr(target);
+  }
+  else if (target == Target_Null) {
+    str = NULL;
+  }
+  else {
+    VALUE target_s = rb_funcall(target, rb_intern("to_s"), 0 );
+    str = StringValuePtr(target_s);
+  }
+#elif defined (SWIGPYTHON)
+  str = PyString_AsString(target);
+#else
+#warning target_charptr not defined
+  str = NULL;
+#endif
+  return str;
+}
+
+
+
 %}
 
 /*=============================================================*/
