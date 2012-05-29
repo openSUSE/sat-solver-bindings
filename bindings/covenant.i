@@ -22,7 +22,7 @@
 %rename(Covenant) _Covenant;
 typedef struct _Covenant {} Covenant;
 
-%extend Covenant {
+%extend _Covenant {
   /* ensure this solvable is installed */
   %constant int INCLUDE_SOLVABLE = SOLVER_INSTALL_SOLVABLE;
   /* ensure this solvable is NOT installed */
@@ -36,7 +36,7 @@ typedef struct _Covenant {} Covenant;
   /* ensure NO solvable providing this relation is installed */
   %constant int EXCLUDE_SOLVABLE_PROVIDES = SOLVER_ERASE_SOLVABLE_PROVIDES;
 
-  ~Covenant()
+  ~_Covenant()
   { covenant_free( $self ); }
   
   /*

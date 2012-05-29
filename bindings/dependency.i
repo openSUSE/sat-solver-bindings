@@ -43,10 +43,11 @@ typedef struct _Dependency {} Dependency;
 
 
 #if defined(SWIGRUBY)
+%mixin _Dependency "Enumerable";
 %mixin Dependency "Enumerable";
 #endif
 
-%extend Dependency {
+%extend _Dependency {
   /* provides Dependency */
   %constant int DEP_PRV = DEP_PRV;
   /* requires Dependency */
@@ -71,9 +72,9 @@ typedef struct _Dependency {} Dependency;
    *  dependency.new(solvable, Satsolver::DEP_REQ) -> Dependency
    *
    */
-  Dependency( XSolvable *xsolvable, int dep )
+  _Dependency( XSolvable *xsolvable, int dep )
   { return dependency_new( xsolvable, dep ); }
-  ~Dependency()
+  ~_Dependency()
   { dependency_free( $self ); }
 
   /*

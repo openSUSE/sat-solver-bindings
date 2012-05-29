@@ -4,11 +4,11 @@
  *
  */
 
-%nodefault _Repokey;
-%rename(Repokey) _Repokey;
-typedef struct _Repokey {} XRepokey; /* expose XRepokey as 'Repokey' */
+%nodefault _xrepokey;
+%rename(Repokey) _xrepokey;
+typedef struct _xrepokey {} XRepokey; /* expose XRepokey as 'Repokey' */
 
-%extend XRepokey {
+%extend _xrepokey {
 
 %constant int REPOKEY_TYPE_VOID = REPOKEY_TYPE_VOID;
 %constant int REPOKEY_TYPE_CONSTANT = REPOKEY_TYPE_CONSTANT;
@@ -30,7 +30,7 @@ typedef struct _Repokey {} XRepokey; /* expose XRepokey as 'Repokey' */
 
   /* no explicit constructor, Repokey is embedded in Repodata */
 
-  ~XRepokey()
+  ~_xrepokey()
   { xrepokey_free( $self ); }
   
   /*

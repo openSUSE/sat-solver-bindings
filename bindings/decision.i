@@ -19,7 +19,7 @@
 typedef struct _Decision {} Decision;
 
 
-%extend Decision {
+%extend _Decision {
   /* install a solvable */
   %constant int DECISION_INSTALL = DECISION_INSTALL;
   /* remove a solvable */
@@ -34,7 +34,7 @@ typedef struct _Decision {} Decision;
   %constant int DECISION_FREE = DECISION_FREE;
 
 
-  ~Decision()
+  ~_Decision()
   { decision_free( $self ); }
   Solver *solver()
   { return $self->solver; }

@@ -13,7 +13,7 @@
 typedef struct _Step {} Step;
 
 
-%extend Step {
+%extend _Step {
   %constant int STEP_IGNORE = SOLVER_TRANSACTION_IGNORE;
 
   %constant int STEP_ERASE = SOLVER_TRANSACTION_ERASE;
@@ -33,7 +33,7 @@ typedef struct _Step {} Step;
   %constant int STEP_MULTIINSTALL = SOLVER_TRANSACTION_MULTIINSTALL;
   %constant int STEP_MULTIREINSTALL = SOLVER_TRANSACTION_MULTIREINSTALL;
   
-  ~Step()
+  ~_Step()
   { step_free( $self ); }
 
   /*

@@ -44,9 +44,9 @@ typedef struct _Solution {} Solution;
 typedef struct _SolutionElement {} SolutionElement;
 
 
-%extend Solution {
+%extend _Solution {
   /* No explicit constructor, use Problem#each_solution */
-  ~Solution()
+  ~_Solution()
   { solution_free ($self); }
 #if defined(SWIGRUBY)
   /*
@@ -80,7 +80,7 @@ typedef struct _SolutionElement {} SolutionElement;
   { return solution_string($self); }
 }
 
-%extend SolutionElement {
+%extend _SolutionElement {
   /* caused by missing/dispensable solvable */
   %constant int SOLUTION_SOLVABLE = 0;
   /* caused by bad job */
@@ -91,7 +91,7 @@ typedef struct _SolutionElement {} SolutionElement;
   %constant int SOLUTION_INFARCH = SOLVER_SOLUTION_INFARCH-1;
   
   /* No explicit constructor, use Soltion#each_element */
-  ~SolutionElement()
+  ~_SolutionElement()
   { solutionelement_free ($self); }
   
   int cause()

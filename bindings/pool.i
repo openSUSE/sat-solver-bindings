@@ -120,14 +120,14 @@ poolnscallback(Pool *pool, void *data, Id name, Id value)
 %}
 
 %nodefault _Pool;
-typedef struct _Pool {} Pool;
 %rename(Pool) _Pool;
+typedef struct _Pool {} Pool;
 
 #if defined(SWIGRUBY)
 %mixin Pool "Enumerable";
 #endif
 
-%extend Pool {
+%extend _Pool {
 
   /*
    * Pool creation, optionally with an architecture
@@ -140,7 +140,7 @@ typedef struct _Pool {} Pool;
    *  Pool.new("x86_64") -> Pool
    *
    */
-  Pool( const char *arch = NULL )
+  _Pool( const char *arch = NULL )
   {
     Pool *pool = pool_create();
   
@@ -159,7 +159,7 @@ typedef struct _Pool {} Pool;
    *
    */
 
-  ~Pool()
+  ~_Pool()
   { }
 
   /*

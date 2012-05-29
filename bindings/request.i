@@ -33,16 +33,16 @@ typedef struct _Request {} Request;
 %mixin Request "Enumerable";
 #endif
 
-%extend Request {
+%extend _Request {
   /*
    * Create request based on Pool
    *
    * See also: Pool.create_request
    */
-  Request( Pool *pool )
+  _Request( Pool *pool )
   { return request_new( pool ); }
 
-  ~Request()
+  ~_Request()
   { request_free( $self ); }
 
   /*

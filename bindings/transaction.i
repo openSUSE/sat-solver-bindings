@@ -43,7 +43,7 @@ typedef struct _Transaction {} Transaction;
 %mixin Transaction "Enumerable";
 #endif
 
-%extend Transaction {
+%extend _Transaction {
 
   /*
    * Modes
@@ -63,7 +63,7 @@ typedef struct _Transaction {} Transaction;
    */
   %constant int TRANSACTION_KEEP_ORDERDATA = SOLVER_TRANSACTION_KEEP_ORDERDATA;
 
-  ~Transaction()
+  ~_Transaction()
   { transaction_free( $self ); }
 
 #if defined(SWIGRUBY)

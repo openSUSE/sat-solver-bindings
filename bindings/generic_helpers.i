@@ -27,13 +27,21 @@
  * (copied from /usr/share/swig/ruby/file.i)
  */
 %typemap(in) FILE *READ {
+#if RUBY_VERSION > 18
+  struct rb_io_t *fptr;
+#else
   OpenFile *fptr;
-
+#endif
   Check_Type($input, T_FILE);
   GetOpenFile($input, fptr);
   rb_io_check_readable(fptr);
+#if RUBY_VERSION > 18
+  $1 = rb_io_stdio_file(fptr);
+  rb_io_read_check(fptr);
+#else
   $1 = GetReadFile(fptr);
   rb_read_check($1);
+#endif
 }
 
 /* boolean input argument */
@@ -69,7 +77,7 @@
         EXTEND(sp, n - items);
 
     for (i = 0; i < n; i++) {
-        ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Solvable, 0);
+        ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__xsolvable, 0);
 	/* xsolvable_free((XSolvable *)$1[i]); */
         argvi++;
     }
@@ -218,7 +226,7 @@
     $result = PyList_New(n);
 
     for (i = 0; i < n; i++) {
-        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__Solvable, 0);
+        PyObject *item = SWIG_NewPointerObj(SWIG_as_voidptr($1[i]), SWIGTYPE_p__xsolvable, 0);
         PyList_SetItem($result, i, item);
     }
     free($1);

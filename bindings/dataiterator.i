@@ -34,7 +34,7 @@
 %rename(Dataiterator) _Dataiterator;
 typedef struct _Dataiterator {} Dataiterator;
 
-%extend Dataiterator {
+%extend _Dataiterator {
   %constant int SEARCH_STRINGMASK = SEARCH_STRINGMASK;
   /* search for exact string match */
   %constant int SEARCH_STRING = SEARCH_STRING;
@@ -65,12 +65,12 @@ typedef struct _Dataiterator {} Dataiterator;
    * Complete Dataiterator constructor, to be used via %python in Swig
    */
 
-  Dataiterator(Pool *pool, Repo *repo, const char *match, int option, XSolvable *xs = 0, const char *keyname = 0)
+  _Dataiterator(Pool *pool, Repo *repo, const char *match, int option, XSolvable *xs = 0, const char *keyname = 0)
   {
     return swig_dataiterator_new(pool, repo, match, option, xs, keyname);
   }
   
-  ~Dataiterator() { swig_dataiterator_free($self); }
+  ~_Dataiterator() { swig_dataiterator_free($self); }
 
   /* return the matching Solvable
    */

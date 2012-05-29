@@ -56,7 +56,7 @@ update_xsolvables_iterate_callback( const XSolvable *xs_old, const XSolvable *xs
 {
 #if defined(SWIGRUBY)
   /* FIXME: how to pass 'break' back to the caller ? */
-  rb_yield_values( 2, SWIG_NewPointerObj((void*)xs_old, SWIGTYPE_p__Solvable, 0), SWIG_NewPointerObj((void*)xs_new, SWIGTYPE_p__Solvable, 0) );
+  rb_yield_values( 2, SWIG_NewPointerObj((void*)xs_old, SWIGTYPE_p__xsolvable, 0), SWIG_NewPointerObj((void*)xs_new, SWIGTYPE_p__xsolvable, 0) );
 #else
   AddPtrIndex(((PtrIndex*)user_data),const XSolvable **,xs_old);
   AddPtrIndex(((PtrIndex*)user_data),const XSolvable **,xs_new);
@@ -102,12 +102,12 @@ solver_problems_iterate_callback( Problem *p, void *user_data )
 %}
 
 
-%nodefault solver;
-%rename(Solver) solver;
-typedef struct solver {} Solver;
+%nodefault _Solver;
+%rename(Solver) _Solver;
+typedef struct _Solver {} Solver;
 
 
-%extend Solver {
+%extend _Solver {
   /*
    * Create a solver operating on a pool
    *
@@ -117,9 +117,9 @@ typedef struct solver {} Solver;
    *  Solver.new(pool) -> Solver
    *
    */
-  Solver( Pool *pool )
+  _Solver( Pool *pool )
   { return solver_create( pool); }
-  ~Solver()
+  ~_Solver()
   { solver_free( $self ); }
 
   /*

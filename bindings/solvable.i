@@ -4,12 +4,12 @@
  *
  */
 
-%nodefault _Solvable;
-%rename(Solvable) _Solvable;
-typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
+%nodefault _xsolvable;
+%rename(Solvable) _xsolvable;
+typedef struct _xsolvable {} XSolvable; /* expose XSolvable as 'Solvable' */
 
 
-%extend XSolvable {
+%extend _xsolvable {
 
   %constant int KIND_PACKAGE  = KIND_PACKAGE;
   %constant int KIND_PRODUCT  = KIND_PRODUCT;
@@ -32,9 +32,9 @@ typedef struct _Solvable {} XSolvable; /* expose XSolvable as 'Solvable' */
    *  Solvable.new(repo, "test", "1.42-0", "ppc") -> Solvable
    *
    */
-  XSolvable( Repo *repo, const char *name, const char *evr, const char *arch = NULL, int add_selfprovides = 1 )
+  _xsolvable( Repo *repo, const char *name, const char *evr, const char *arch = NULL, int add_selfprovides = 1 )
   { return xsolvable_create( repo, name, evr, arch, add_selfprovides ); }
-  ~XSolvable()
+  ~_xsolvable()
   { return xsolvable_free( $self ); }
 
   /*

@@ -13,7 +13,7 @@
 typedef struct _Job {} Job;
 
 
-%extend Job {
+%extend _Job {
   %constant int INSTALL_SOLVABLE = (SOLVER_INSTALL|SOLVER_SOLVABLE);
   %constant int UPDATE_SOLVABLE = (SOLVER_UPDATE|SOLVER_SOLVABLE);
   %constant int REMOVE_SOLVABLE = (SOLVER_ERASE|SOLVER_SOLVABLE);
@@ -37,7 +37,7 @@ typedef struct _Job {} Job;
   %constant int REMOVE_ONE_OF = (SOLVER_ERASE|SOLVER_SOLVABLE_ONE_OF);
   %constant int LOCK_ONE_OF = (SOLVER_LOCK|SOLVER_SOLVABLE_ONE_OF);
   
-  ~Job()
+  ~_Job()
   { job_free( $self ); }
 
   int cmd()

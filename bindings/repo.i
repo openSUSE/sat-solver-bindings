@@ -23,7 +23,7 @@ typedef struct _Repo {} Repo;
 %mixin Repo "Enumerable";
 #endif
 
-%extend Repo {
+%extend _Repo {
   /*
    * Document-method: new
    * Create a new Repository in Pool with a given name
@@ -34,9 +34,9 @@ typedef struct _Repo {} Repo;
    *   Repo.new(pool, "test")
    *
    */
-  Repo( Pool *pool, const char *reponame )
+  _Repo( Pool *pool, const char *reponame )
   { return repo_create( pool, reponame ); }
-  ~Repo()
+  ~_Repo()
   { }
 
   /*

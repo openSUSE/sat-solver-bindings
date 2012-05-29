@@ -50,7 +50,7 @@ typedef struct _Repodata {} Repodata;
   {
     int i;
     for (i = 1; i < $self->nkeys; ++i ) {
-      rb_yield( SWIG_NewPointerObj((void*) xrepokey_new( $self->keys + i, $self->repo, $self ), SWIGTYPE_p__Repokey, 0) );
+      rb_yield( SWIG_NewPointerObj((void*) xrepokey_new( $self->keys + i, $self->repo, $self ), SWIGTYPE_p__xrepokey, 0) );
     }
   }
 #endif

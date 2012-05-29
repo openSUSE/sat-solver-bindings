@@ -21,7 +21,7 @@
 typedef struct _Relation {} Relation;
 
 
-%extend Relation {
+%extend _Relation {
   /* operation constants */
   
   /* the no-op relation */
@@ -58,9 +58,9 @@ typedef struct _Relation {} Relation;
    *    Relation.new( pool, "kernel", REL_GT, "2.6.26" ) -> Relation
    *
    */
-  Relation( Pool *pool, const char *name, int op = 0, const char *evr = NULL )
+  _Relation( Pool *pool, const char *name, int op = 0, const char *evr = NULL )
   { return relation_create( pool, name, op, evr ); }
-  ~Relation()
+  ~_Relation()
   { relation_free( $self ); }
 
 #if defined(SWIGRUBY)

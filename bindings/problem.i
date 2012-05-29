@@ -56,9 +56,9 @@ problem_solutions_iterate_callback( Solution *s, void *user_data)
 typedef struct _Problem {} Problem;
 
 
-%extend Problem {
+%extend _Problem {
 
-  ~Problem()
+  ~_Problem()
   { problem_free ($self); }
 
   /*
