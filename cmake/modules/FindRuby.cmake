@@ -57,10 +57,10 @@ EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFI
 EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['vendorarchdir']"
   OUTPUT_VARIABLE RUBY_VENDORARCH_DIR ERROR_QUIET)
 
-IF(RUBY_VENDORARCH_DIR)
+IF(RUBY_VENDORARCH_DIR AND (NOT ("${RUBY_VENDORARCH_DIR}" STREQUAL "nil")))
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['vendorlibdir']"
        OUTPUT_VARIABLE RUBY_VENDORLIB_DIR)
-ELSE(RUBY_VENDORARCH_DIR)
+ELSE(RUBY_VENDORARCH_DIR AND (NOT ("${RUBY_VENDORARCH_DIR}" STREQUAL "nil")))
 
     # fall back to site*dir
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['sitearchdir']"
@@ -68,7 +68,7 @@ ELSE(RUBY_VENDORARCH_DIR)
 
     EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['sitelibdir']"
        OUTPUT_VARIABLE RUBY_VENDORLIB_DIR)
-ENDIF(RUBY_VENDORARCH_DIR)
+ENDIF(RUBY_VENDORARCH_DIR AND (NOT ("${RUBY_VENDORARCH_DIR}" STREQUAL "nil")))
 
 # this is not needed if you use "print" inside the ruby statements
 # remove the new lines from the output by replacing them with empty strings
@@ -76,12 +76,23 @@ ENDIF(RUBY_VENDORARCH_DIR)
 #STRING(REPLACE "\n" "" RUBY_POSSIBLE_LIB_PATH "${RUBY_POSSIBLE_LIB_PATH}")
 #STRING(REPLACE "\n" "" RUBY_RUBY_LIB_PATH "${RUBY_RUBY_LIB_PATH}")
 
+EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['ruby_install_name']"
+   OUTPUT_VARIABLE RUBY_INSTALL_NAME)
+IF(RUBY_INSTALL_NAME STREQUAL "jruby")
+  EXECUTE_PROCESS(COMMAND ${RUBY_EXECUTABLE} -r rbconfig -e "print RbConfig::CONFIG['includedir']"
+    OUTPUT_VARIABLE JRUBY_INC_DIR)
+  # Hmm, jruby reports lib/native/linux as 'includedir' but ruby.h is at lib/native/include
+  SET(RUBY_HDR_DIR "${RUBY_POSSIBLE_LIB_PATH}/native/include")
+ENDIF(RUBY_INSTALL_NAME STREQUAL "jruby")
+  
+
 
 FIND_PATH(RUBY_INCLUDE_PATH
    NAMES ruby.h
   PATHS
    ${RUBY_HDR_DIR}
    ${RUBY_ARCH_DIR}
+   ${JRUBY_INC_DIR}
    /usr/lib/ruby/1.8/i586-linux-gnu/ )
 
 FIND_LIBRARY(RUBY_LIBRARY
